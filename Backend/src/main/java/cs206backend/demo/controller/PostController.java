@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/user")
-public class UserController {
+@RequestMapping("/api/post")
+public class PostController {
     
 }
