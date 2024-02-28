@@ -3,9 +3,8 @@ package cs206backend.demo.models;
 import jakarta.persistence.*;
 import java.util.*;
 
-import com.nimbusds.oauth2.sdk.id.Subject;
-
 import cs206backend.demo.models.enums.EducationLevel;
+import cs206backend.demo.models.enums.Subject;
 import lombok.*;
 
 @Entity
@@ -24,4 +23,7 @@ public class Mentor {
     
     @OneToMany(mappedBy = "mentor", cascade = CascadeType.ALL)
     private List<Answer> answers;
+
+    @OneToMany(mappedBy = "mentor", cascade = CascadeType.ALL)
+    private List<MentorMentee> mentorMentees;
 }

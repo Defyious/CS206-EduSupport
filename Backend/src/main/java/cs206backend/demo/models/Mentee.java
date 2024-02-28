@@ -18,6 +18,12 @@ public class Mentee {
     private EducationLevel educationLevel;
     private List<Subject> subjects;
 
+    private boolean isPremium;
 
-    // Constructors, getters, and setters
+    @OneToMany(mappedBy = "mentee", cascade = CascadeType.ALL)
+    private List<Question> questions;
+
+    @OneToMany(mappedBy = "mentee", cascade = CascadeType.ALL)
+    private List<MentorMentee> mentorMentees;
+
 }

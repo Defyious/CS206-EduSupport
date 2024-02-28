@@ -1,12 +1,11 @@
 package cs206backend.demo.models;
 
 import jakarta.persistence.*;
-import jakarta.persistence.Id;
+
 import java.util.*;
 
-import com.nimbusds.oauth2.sdk.id.Subject;
-
 import cs206backend.demo.models.enums.EducationLevel;
+import cs206backend.demo.models.enums.Subject;
 import lombok.*;
 
 
@@ -28,11 +27,10 @@ public class Question {
     private String topic;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private Mentee user;
+    @JoinColumn(name = "mentee_id")
+    private Mentee mentee;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<Answer> answers;
-
 
 }
