@@ -1,5 +1,5 @@
 import DesktopNavbarComponent from "../components/NavbarComp";
-import DesktopAside from "../components/DesktopAside";
+import DesktopAsideLogin from "./DesktopAsideLogin";
 import "./CSS/Forum.css";
 
 const Forum = () => {
@@ -305,7 +305,7 @@ const Forum = () => {
             </div>
           </div>
         </div>
-        <DesktopAside />
+        <DesktopAsideLogin />
       </main>
     </div>
   );

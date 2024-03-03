@@ -1,71 +1,81 @@
 import "./CSS/NavbarComp.css";
 
-const NavbarComp = () => {
+const NavbarComp = ({
+  iconsaxLinearsearchstatus,
+  group20,
+  iconsaxLinearsmsnotificat,
+  onHomeTextClick,
+}) => {
   return (
-    <div className="desktop-navbar-component">
-      <div className="title-frame">
-        <div className="brands">
-          <div className="logo-brand">
-            <div className="desktop-aside-instance" />
-            <div className="header-frame" />
-            <div className="main-content">
-              <div className="group-frame" />
-              <div className="group-frame1" />
-              <div className="main-content-child" />
-              <div className="d-parent">
-                <h1 className="d">d</h1>
-                <h1 className="g">G</h1>
+    <header className="desktop-navbar-component2">
+      <div className="brands-parent">
+        <div className="brands2">
+          <div className="logo-brand2">
+            <div className="logo-brand-child" />
+            <div className="logo-brand-item" />
+            <div className="f-r-a-m-e-search-ellipses-parent">
+              <div className="f-r-a-m-e-search-ellipses" />
+              <div className="f-r-a-m-e-search-ellipses1" />
+              <div className="ellipse-div" />
+              <div className="d-container">
+                <h1 className="d2">d</h1>
+                <h1 className="g2">G</h1>
               </div>
             </div>
           </div>
-          <div className="thumbsup-icon">
-            <h3 className="digiforumio">EduSupport</h3>
-            <div className="platform-discussion">Platform Discussion</div>
+          <div className="frame-discussion-forum">
+            <h3 className="digiforumio2">EduSupport</h3>
+            <div className="platform-discussion2">Platform Discussion</div>
           </div>
         </div>
-        <div className="search">
-          <div className="trend-node">
-            <div className="vector-frontend">
-              <img
-                className="iconsaxlinearsearchstatus"
-                alt=""
-                src="/iconsaxlinearsearchstatus.svg"
-              />
+        <div className="f-r-a-m-e-search-explore">
+          <div className="search2">
+            <div className="f-r-a-m-e-iconsax-linearsearch">
+              <div className="iconsax-linearsearchstatus">
+                <img
+                  className="iconsaxlinearsearchstatus2"
+                  alt=""
+                  src={iconsaxLinearsearchstatus}
+                />
+              </div>
+              <div className="explore2">Explore...</div>
             </div>
-            <div className="explore">Explore...</div>
           </div>
         </div>
       </div>
-      <div className="machinelearning-node">
-        <header className="menu-tab-container">
-          <div className="navbar">
-            <div className="links1">
-              <div className="home">Home</div>
-              <div className="about">About</div>
-              <div className="threads">Threads</div>
-              <div className="community">Community</div>
-              <div className="leaderboards1">Mentor boards</div>
+      <div className="navbar-container">
+        <div className="navbar2">
+          <nav className="links3">
+            <div className="home2" onClick={onHomeTextClick}>
+              Home
             </div>
-          </div>
-          <div className="label-four-tab">
-            <div className="tab-holding-zone">
+            <div className="about2">About</div>
+            <div className="threads2">Threads</div>
+            <div className="community2">Community</div>
+            <div className="leaderboards3">Leaderboards</div>
+          </nav>
+        </div>
+        <div className="footer-frame1">
+          <div className="search-frame-parent">
+            <div className="search-frame">
               <img
-                className="tab-holding-zone-child"
-                loading="eager"
+                className="search-frame-child"
+                loading="lazy"
                 alt=""
-                src="/group-20.svg"
+                src={group20}
               />
             </div>
             <img
-              className="iconsaxlinearsmsnotification"
+              className="iconsaxlinearsmsnotification2"
+              loading="lazy"
               alt=""
-              src="/iconsaxlinearsmsnotification.svg"
-            />
+              src={iconsaxLinearsmsnotificat}
+              />
+              </div>
+            </div>
           </div>
         </header>
-      </div>
-    </div>
-  );
-};
+      );
+    };
 
 export default NavbarComp;
