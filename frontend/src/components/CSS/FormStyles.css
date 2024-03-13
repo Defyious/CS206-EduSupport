@@ -1,0 +1,57 @@
+/* FormStyles.css */
+.form-container {
+    background: rgba(255, 255, 255, 0.8); /* Adjust transparency as needed */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    margin: auto;
+    margin-top: 5%; /* Add top margin to lower the form a bit */
+    max-width: 500px; /* Or your preferred max width */
+    text-align: center;
+    position: relative;
+  }
+  
+  /* You might want to adjust the max-width depending on your design */
+  .form-content {
+    width: 100%;
+    max-width: 500px; /* Set a max-width for the form content */
+    margin: 0 auto; /* Centers the form content block */
+    padding: 2em; /* Spacing inside the form */
+  }
+  
+  h2 {
+    text-align: center; /* Center the form heading */
+    margin-bottom: 1em; /* Spacing after the heading */
+  }
+  
+  form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+  form input[type="text"],
+  form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-sizing: border-box;
+  }
+  
+  form button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  form button:hover {
+    background-color: #0056b3;
+  }
+
