@@ -10,13 +10,15 @@ import lombok.*;
 @Entity
 @Table(name = "mentee")
 @Data
+@NoArgsConstructor
 public class Mentee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String username;
+
     private EducationLevel educationLevel;
-    private List<Subject> subjects;
 
     private boolean isPremium;
 
@@ -25,5 +27,11 @@ public class Mentee {
 
     @OneToMany(mappedBy = "mentee", cascade = CascadeType.ALL)
     private List<MentorMentee> mentorMentees;
+
+    public Mentee(String username, EducationLevel educationLevel, boolean isPremium) {
+        this.username = username;
+        this.educationLevel = educationLevel;
+        this.isPremium = isPremium;
+    }
 
 }
