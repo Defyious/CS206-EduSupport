@@ -8,6 +8,8 @@ import RandomMatching from './components/RandomMatching';
 import SelectiveMatching from './components/SelectiveMatching';
 import MentoringPage from './components/MentoringPage';
 import ForumPage from './components/ForumPage';
+import LoginPage from './components/LoginPage';
+import ProfilePage from './components/Profile';
 import './App.css'; // Make sure to import the stylesheet
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -23,7 +25,9 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/forum" element={<ForumPage />} />
         <Route path="/mentoring" element={<MentoringPage />} />
-        <Route path="/" element={<Selection />} />
+        <Route path="/register" element={<Selection />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/" element={<LoginPage />} />
       </Routes>
     </Router>
     </div>

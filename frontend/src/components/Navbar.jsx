@@ -1,26 +1,36 @@
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-// import NavDropdown from 'react-bootstrap/NavDropdown';
-import React, { useEffect, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+// MyNavbar.jsx
+import React from 'react';
+import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
-function MyNavbar() {
+const MyNavbar = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate('/');
+  };
+
   return (
-    <Navbar expand="lg" className="bg-body-tertiary">
-      <Container>
-        <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link href="/home">Home</Nav.Link>
-            <Nav.Link href="/forum">Forum</Nav.Link>
-            <Nav.Link href="/mentoring">Mentoring</Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
+    <Navbar bg="light" expand="lg">
+      <Navbar.Brand href="/">React-Bootstrap</Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+        <Nav className="me-auto">
+          <Nav.Link href="/home">Home</Nav.Link>
+          <Nav.Link href="/mentoring">Mentoring</Nav.Link>
+          {/* Other Nav Links if any */}
+        </Nav>
+        <Nav>
+          <NavDropdown title="Profile" id="basic-nav-dropdown" align="end">
+            <NavDropdown.Item href="/profile">View Profile</NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item onClick={handleLogout}>Log Out</NavDropdown.Item>
+          </NavDropdown>
+        </Nav>
+      </Navbar.Collapse>
     </Navbar>
   );
-}
+};
 
 export default MyNavbar;

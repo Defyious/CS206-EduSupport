@@ -82,3 +82,18 @@
   border: 1px solid #ccc; /* Optional border */
 }
 
+.signup-prompt {
+  margin-top: 20px;
+}
+
+.signup-link {
+  color: #007bff;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+}
+
+.signup-link:hover {
+  color: #0056b3;
+  text-decoration: none; /* Optional: removes the underline on hover */
+}
