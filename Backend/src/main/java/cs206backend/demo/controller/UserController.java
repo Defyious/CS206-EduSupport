@@ -2,6 +2,7 @@ package cs206backend.demo.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import javax.validation.Valid;
 
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import cs206backend.demo.models.Mentee;
+import cs206backend.demo.models.Mentor;
 import cs206backend.demo.models.enums.EducationLevel;
 import cs206backend.demo.models.enums.Subject;
 import cs206backend.demo.payload.request.MenteeRegRequest;
@@ -73,5 +76,27 @@ public class UserController {
         }
     }
     
+    @PostMapping("/login/mentee")
+    public ResponseEntity<?> loginMentee(@RequestBody String username) {
+        //TODO: process POST request
+        try {
+            Mentee mentee = userService.loginMentee(username);
+            return ResponseEntity.ok(mentee);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.badRequest().body(e.toString());
+        }
+    }
+
+    @PostMapping("/login/mentor")
+    public ResponseEntity<?> loginMentor(@RequestBody String username) {
+        //TODO: process POST request
+        
+        try {
+            Mentor mentor = userService.loginMentor(username);
+            return ResponseEntity.ok(mentor);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.badRequest().body(e.toString());
+        }
+    }
     
 }

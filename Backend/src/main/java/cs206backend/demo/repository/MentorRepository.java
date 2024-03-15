@@ -5,7 +5,10 @@ import org.springframework.data.jpa.repository.cdi.JpaRepositoryExtension;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import cs206backend.demo.models.Mentee;
 import cs206backend.demo.models.Mentor;
+
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -14,6 +17,7 @@ import org.springframework.data.jpa.repository.Query;
 @Repository
 @Transactional
 public interface MentorRepository extends JpaRepository<Mentor, Long> {
-    // You can add custom methods if required
+
+    Optional<Mentor> findByUsername(String username);
 }
 

@@ -1,7 +1,9 @@
 package cs206backend.demo.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
+import org.apache.el.stream.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +36,18 @@ public class UserService {
 
     public Mentor registerMentor(String userName, EducationLevel eduLevel, List<Subject> subjects) {
         return null;
+    }
+
+    public Mentee loginMentee(String username) throws NoSuchElementException{
+
+        Mentee mentee = menteeRepository.findByUsername(username).get();
+        return mentee;
+    }
+
+    public Mentor loginMentor(String username) throws NoSuchElementException{
+
+        Mentor mentor = mentorRepository.findByUsername(username).get();
+        return mentor;
     }
 
 }
