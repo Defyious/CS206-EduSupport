@@ -1,16 +1,24 @@
 // RandomMatchingPage.jsx
 import React from 'react';
 import MyNavbar from './Navbar';
-//import './CSS/PageStyles.css'; // Use your Page Styles or adjust accordingly
+import Spinner from 'react-bootstrap/Spinner';
+import './CSS/RandomMatchingPage.css'; // Your dedicated CSS file
 
 const RandomMatching = () => {
   return (
-    <div className="page-container">
-        <MyNavbar />
-      <h1>Random Matching Page</h1>
-      {/* Content for Random Matching Page */}
-    </div>
+    <>
+      <MyNavbar />
+      <div className="random-matching-page">
+        <div className="loading-box">
+          <Spinner animation="border" size="xl" className="loading-spinner" />
+          <p className="motivational-quote">"Age is just a number <br />Jail is just a room <br />Don't let your dreams be dreams <br />JUST DO IT!"<br /> - Jevon Tan Jing Hong</p>
+        </div>
+      </div>
+    </>
   );
 };
 
 export default RandomMatching;
+
+
+
