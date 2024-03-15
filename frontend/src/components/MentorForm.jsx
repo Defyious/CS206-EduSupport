@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import "./CSS/FormStyles.css";
 
 const subjects = ['Math', 'Chemistry', 'Physics', 'Biology', 'English', 'Chinese'];
@@ -15,6 +16,7 @@ const MentorForm = () => {
     educationLevel: '',
     subjectsToTeach: []
   });
+  const navigate = useNavigate();
 
   const handleCheckboxChange = (e) => {
     const { value, checked } = e.target;
@@ -33,6 +35,8 @@ const MentorForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     localStorage.setItem('mentorInfo', JSON.stringify(mentorInfo));
+    alert('Signup successful!');
+    navigate('/home'); // Redirect to the home page
     // Implement the POST request to your backend here
     // try {
     //   const response = await fetch('YOUR_BACKEND_ENDPOINT/mentor', {
@@ -45,6 +49,8 @@ const MentorForm = () => {
     //   if (!response.ok) throw new Error('Network response was not ok.');
     //   const data = await response.json();
     //   console.log(data); // Handle success
+    // alert('Signup successful!');
+    // navigate('/home'); // Redirect to the home page
     // } catch (error) {
     //   console.error('There has been a problem with your fetch operation:', error);
     // }
