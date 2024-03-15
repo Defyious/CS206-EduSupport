@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import "./CSS/FormStyles.css";
 
 const educationLevels = [
@@ -12,6 +13,7 @@ const MenteeForm = () => {
     username: '',
     educationLevel: ''
   });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,6 +23,8 @@ const MenteeForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     localStorage.setItem('menteeInfo', JSON.stringify(menteeInfo));
+    alert('Signup successful!');
+    navigate('/home'); // Redirect to the home page
         // Example POST request with fetch
         // try {
         //   const response = await fetch('YOUR_BACKEND_ENDPOINT/mentee', {
@@ -32,7 +36,8 @@ const MenteeForm = () => {
         //   });
         //   if (!response.ok) throw new Error('Network response was not ok.');
         //   const data = await response.json();
-        //   console.log(data); // Handle success
+        //   alert('Signup successful!');
+        //   navigate('/'); // Redirect to the home page
         // } catch (error) {
         //   console.error('There has been a problem with your fetch operation:', error);
         // }

@@ -55,3 +55,30 @@
     background-color: #0056b3;
   }
 
+/* ... (previous styles remain the same) */
+
+.description-textarea {
+  width: 100%;
+  resize: vertical; /* Allow vertical resizing, prevent horizontal resizing */
+  /* You can also set a minimum height if needed */
+}
+
+.button-group {
+  display: flex; /* Align buttons side by side */
+  justify-content: space-between; /* Distribute space between buttons */
+  gap: 10px; /* Add a gap between the buttons */
+}
+
+.form-button {
+  flex-grow: 1; /* Let buttons grow equally to fill space */
+  /* Additional button styling */
+}
+.image-preview {
+  width: 100%; /* Full width of its container */
+  max-height: 300px; /* Set a maximum height for the image preview */
+  object-fit: contain; /* This will ensure the image fits within the box */
+  border-radius: 5px; /* Optional rounded corners */
+  margin-top: 20px; /* Space above the preview */
+  border: 1px solid #ccc; /* Optional border */
+}
+

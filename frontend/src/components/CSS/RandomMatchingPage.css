@@ -1,0 +1,32 @@
+/* RandomMatchingPage.css */
+.random-matching-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full height of the viewport */
+  padding-top: 80px; /* Assuming your navbar is 80px tall */
+}
+
+.loading-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.8); /* Translucent white background */
+  padding: 50px;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.loading-spinner {
+  width: 100px; /* Large spinner */
+  height: 100px; /* Large spinner */
+  margin-bottom: 30px; /* Space between the spinner and the quote */
+}
+
+.motivational-quote {
+  font-size: 1.2rem; /* Larger text for the quote */
+  text-align: center;
+  color: #555; /* A color that stands out against the spinner */
+  max-width: 300px; /* To ensure the quote doesn't stretch too far */
+}

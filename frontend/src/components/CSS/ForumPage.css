@@ -1,0 +1,60 @@
+/* ForumPage.css */
+.forum-page {
+    position: relative;
+    padding-top: 80px; /* Adjust based on your navbar height */
+  }
+  
+  .filter-container {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 20px;
+  }
+  
+  .filter-container select {
+    padding: 5px 10px;
+    margin-left: 10px;
+    /* Additional styles for nicer appearance */
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .posts-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    /* Add padding to avoid overlapping with the filter on small screens */
+    padding: 20px;
+  }
+  
+  .post-card {
+    flex-basis: calc(33.333% - 20px);
+    margin: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background-color: #fff;
+    border-radius: 5px;
+    overflow: hidden; /* Keeps image within the boundaries */
+    /* Make sure to set a min-width to prevent cards from becoming too small */
+  }
+  
+  .post-image {
+    width: 100%;
+    display: block;
+    height: auto; /* Maintain aspect ratio */
+  }
+  
+  /* Media queries for responsiveness */
+  @media (max-width: 768px) {
+    .post-card {
+      flex-basis: calc(50% - 20px);
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .post-card {
+      flex-basis: 100%;
+    }
+  }
+  
