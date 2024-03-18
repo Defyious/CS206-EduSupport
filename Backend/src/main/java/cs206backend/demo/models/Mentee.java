@@ -18,7 +18,7 @@ public class Mentee {
 
     private String username;
 
-    private EducationLevel educationLevel;
+    private int educationLevel;
 
     private boolean isPremium;
 
@@ -28,7 +28,7 @@ public class Mentee {
     @OneToMany(mappedBy = "mentee", cascade = CascadeType.ALL)
     private List<MentorMentee> mentorMentees;
 
-    public Mentee(String username, EducationLevel educationLevel, boolean isPremium) {
+    public Mentee(String username, int educationLevel, boolean isPremium) {
         this.username = username;
         this.educationLevel = educationLevel;
         this.isPremium = isPremium;

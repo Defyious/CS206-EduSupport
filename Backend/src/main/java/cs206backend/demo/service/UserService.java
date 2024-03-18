@@ -2,6 +2,8 @@ package cs206backend.demo.service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.el.stream.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +11,13 @@ import org.springframework.stereotype.Service;
 
 import cs206backend.demo.models.Mentee;
 import cs206backend.demo.models.Mentor;
+import cs206backend.demo.models.SubjectEntity;
 import cs206backend.demo.models.enums.EducationLevel;
 import cs206backend.demo.models.enums.Subject;
+import cs206backend.demo.payload.exception.usernameExistException;
 import cs206backend.demo.repository.MenteeRepository;
 import cs206backend.demo.repository.MentorRepository;
+import cs206backend.demo.repository.SubjectRepository;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -21,21 +26,38 @@ public class UserService {
 
     private MenteeRepository menteeRepository;
     private MentorRepository mentorRepository;
+    private SubjectRepository subjectRepository;
 
     @Autowired
-    public UserService(MenteeRepository menteeRepository, MentorRepository mentorRepository) {
+    public UserService(MenteeRepository menteeRepository, MentorRepository mentorRepository, SubjectRepository subjectRepository) {
         this.menteeRepository = menteeRepository;
         this.mentorRepository = mentorRepository;
+        this.subjectRepository = subjectRepository;
     }
 
-    public Mentee registerMentee(String userName, EducationLevel eduLevel, boolean isPremium) {
-        Mentee mentee = new Mentee(userName, eduLevel, isPremium);
+    @Transactional
+    public Mentee registerMentee(String userName, EducationLevel eduLevel, boolean isPremium) throws usernameExistException {
+        if (menteeRepository.existsByUsername(userName)) {
+            throw new usernameExistException();
+        }
+        Mentee mentee = new Mentee(userName, eduLevel.getValue(), isPremium);
         menteeRepository.save(mentee);
         return mentee;
     }
 
-    public Mentor registerMentor(String userName, EducationLevel eduLevel, List<Subject> subjects) {
-        return null;
+    @Transactional
+    public Mentor registerMentor(String userName, EducationLevel eduLevel, List<Subject> subjects, String availabilityTiming) throws usernameExistException{
+        if (mentorRepository.existsByUsername(userName)) {
+            throw new usernameExistException();
+        }
+    
+        Set<SubjectEntity> subjectEntities = subjects.stream()
+        .map(subject -> subjectRepository.findByName(subject.name()).get())
+        .collect(Collectors.toSet());
+        Mentor mentor = new Mentor(userName, eduLevel.getValue(), availabilityTiming);
+        mentor.setSubjects(subjectEntities);
+        mentorRepository.save(mentor);
+        return mentor;
     }
 
     public Mentee loginMentee(String username) throws NoSuchElementException{
@@ -47,6 +69,7 @@ public class UserService {
     public Mentor loginMentor(String username) throws NoSuchElementException{
 
         Mentor mentor = mentorRepository.findByUsername(username).get();
+        mentor.setOnline(true);
         return mentor;
     }
 

@@ -19,9 +19,18 @@ public class Mentor {
 
     private float rating;
     private int numRatings;
+    private String availabilityTiming;
 
-    private EducationLevel educationLevel;
-    private List<Subject> subjects;
+    private int educationLevel;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "mentor_subjects",
+               joinColumns = @JoinColumn(name = "mentor_id"),
+               inverseJoinColumns = @JoinColumn(name = "subject_id"))
+    private Set<SubjectEntity> subjects = new HashSet<>();
+
+    private boolean isOnline;
+    private long lastOnline;
     
     @OneToMany(mappedBy = "mentor", cascade = CascadeType.ALL)
     private List<Answer> answers;
@@ -29,9 +38,9 @@ public class Mentor {
     @OneToMany(mappedBy = "mentor", cascade = CascadeType.ALL)
     private List<MentorMentee> mentorMentees;
 
-    public Mentor(String username, EducationLevel educationLevel, List<Subject> subjects) {
+    public Mentor(String username, int educationLevel, String availabilityTiming) {
         this.username = username;
         this.educationLevel = educationLevel;
-        this.subjects = subjects;
+        this.availabilityTiming = availabilityTiming;
     }
 }

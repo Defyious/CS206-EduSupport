@@ -38,22 +38,22 @@ const MentorForm = () => {
     alert('Signup successful!');
     navigate('/home'); // Redirect to the home page
     // Implement the POST request to your backend here
-    // try {
-    //   const response = await fetch('YOUR_BACKEND_ENDPOINT/mentor', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(mentorInfo),
-    //   });
-    //   if (!response.ok) throw new Error('Network response was not ok.');
-    //   const data = await response.json();
-    //   console.log(data); // Handle success
-    // alert('Signup successful!');
-    // navigate('/home'); // Redirect to the home page
-    // } catch (error) {
-    //   console.error('There has been a problem with your fetch operation:', error);
-    // }
+    try {
+      const response = fetch('http://localhost:8080/api/user/register/mentor', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(mentorInfo),
+      });
+      if (!response.ok) throw new Error('Network response was not ok.');
+      const data = response.json();
+      console.log(data); // Handle success
+      alert('Signup successful!');
+      navigate('/home'); // Redirect to the home page
+    } catch (error) {
+      console.error('There has been a problem with your fetch operation:', error);
+    }
   };
 
   return (

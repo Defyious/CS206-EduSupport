@@ -6,7 +6,7 @@ import cs206backend.demo.models.enums.Subject;
 
 public class test {
     public static void main(String[] args) {
-        System.out.println(EducationLevel.getENUMEduLevel("primary2"));
-        System.out.println(Subject.getENUMSubject("math"));
+        System.out.println(EducationLevel.getENUMEduLevel("primary 2"));
+        System.out.println(Subject.getENUMSubject("chemistry"));
     }
 }

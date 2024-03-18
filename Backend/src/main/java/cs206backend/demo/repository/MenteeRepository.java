@@ -18,5 +18,5 @@ import org.springframework.data.jpa.repository.Query;
 public interface MenteeRepository extends JpaRepository<Mentee, Long>{
     
     Optional<Mentee> findByUsername(String username);
-    
+    Boolean existsByUsername(String username);
 } 

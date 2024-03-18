@@ -53,7 +53,7 @@ public class UserController {
             userService.registerMentee(username, eduLevel, isPremium);
             return ResponseEntity.ok("Mentee Registered");
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e);
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
     
@@ -62,34 +62,35 @@ public class UserController {
         
         String username = mentorRegRequest.getUsername();
         EducationLevel eduLevel = EducationLevel.getENUMEduLevel(mentorRegRequest.getEducationLevel());
+        String availabilityTiming = mentorRegRequest.getAvailabilityTiming();
         List<Subject> subjects = new ArrayList<>();
         List<String> subjectsPreFormating = mentorRegRequest.getSubjects();
         for (String s : subjectsPreFormating) {
             subjects.add(Subject.getENUMSubject(s));
+            // System.out.println(Subject.getENUMSubject(s));
         }
         
         try {
-            userService.registerMentor(username, eduLevel, subjects);
+            userService.registerMentor(username, eduLevel, subjects, availabilityTiming);
             return ResponseEntity.ok("Mentor Registered");
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e);
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
     
     @PostMapping("/login/mentee")
     public ResponseEntity<?> loginMentee(@RequestBody String username) {
-        //TODO: process POST request
+
         try {
             Mentee mentee = userService.loginMentee(username);
             return ResponseEntity.ok(mentee);
         } catch (NoSuchElementException e) {
-            return ResponseEntity.badRequest().body(e.toString());
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @PostMapping("/login/mentor")
     public ResponseEntity<?> loginMentor(@RequestBody String username) {
-        //TODO: process POST request
         
         try {
             Mentor mentor = userService.loginMentor(username);
