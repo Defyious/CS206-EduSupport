@@ -16,14 +16,14 @@ public class Mentor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
+    private String availabilityTiming;
 
     private float rating;
     private int numRatings;
-    private String availabilityTiming;
-
+    
     private int educationLevel;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "mentor_subjects",
                joinColumns = @JoinColumn(name = "mentor_id"),
                inverseJoinColumns = @JoinColumn(name = "subject_id"))

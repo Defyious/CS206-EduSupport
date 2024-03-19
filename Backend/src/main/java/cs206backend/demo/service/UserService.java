@@ -67,7 +67,7 @@ public class UserService {
     }
 
     public Mentor loginMentor(String username) throws NoSuchElementException{
-
+        
         Mentor mentor = mentorRepository.findByUsername(username).get();
         mentor.setOnline(true);
         return mentor;

@@ -22,10 +22,10 @@ public class MentorStatusController {
     @Autowired
     private UserStatusService UserStatusService;
 
-    @PostMapping("/update")
-    public ResponseEntity<?> updateStatus(@RequestBody StatusUpdateRequest request) {
-        UserStatusService.updateUserStatus(request.getUserID(), request.isOnline());
-        return ResponseEntity.ok().build();
-    }
+    // @PostMapping("/update")
+    // public ResponseEntity<?> updateStatus(@RequestBody StatusUpdateRequest request) {
+    //     UserStatusService.updateUserStatus(request.getUserID(), request.isOnline());
+    //     return ResponseEntity.ok().build();
+    // }
     
 }

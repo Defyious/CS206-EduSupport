@@ -17,6 +17,7 @@ import cs206backend.demo.models.Mentee;
 import cs206backend.demo.models.Mentor;
 import cs206backend.demo.models.enums.EducationLevel;
 import cs206backend.demo.models.enums.Subject;
+import cs206backend.demo.payload.request.LoginRequest;
 import cs206backend.demo.payload.request.MenteeRegRequest;
 import cs206backend.demo.payload.request.MentorRegRequest;
 import cs206backend.demo.payload.response.MessageResponse;
@@ -79,10 +80,10 @@ public class UserController {
     }
     
     @PostMapping("/login/mentee")
-    public ResponseEntity<?> loginMentee(@RequestBody String username) {
+    public ResponseEntity<?> loginMentee(@RequestBody LoginRequest loginRequest) {
 
         try {
-            Mentee mentee = userService.loginMentee(username);
+            Mentee mentee = userService.loginMentee(loginRequest.getUsername());
             return ResponseEntity.ok(mentee);
         } catch (NoSuchElementException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -90,10 +91,10 @@ public class UserController {
     }
 
     @PostMapping("/login/mentor")
-    public ResponseEntity<?> loginMentor(@RequestBody String username) {
+    public ResponseEntity<?> loginMentor(@RequestBody LoginRequest loginRequest) {
         
         try {
-            Mentor mentor = userService.loginMentor(username);
+            Mentor mentor = userService.loginMentor(loginRequest.getUsername());
             return ResponseEntity.ok(mentor);
         } catch (NoSuchElementException e) {
             return ResponseEntity.badRequest().body(e.toString());
