@@ -32,29 +32,46 @@ const MentorForm = () => {
     setMentorInfo({ ...mentorInfo, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    localStorage.setItem('mentorInfo', JSON.stringify(mentorInfo));
-    alert('Signup successful!');
-    navigate('/home'); // Redirect to the home page
-    // Implement the POST request to your backend here
+    const mentorData = {
+      username: mentorInfo.username,
+      educationLevel: mentorInfo.educationLevel,
+      availabilityTiming: 'Any', // Adjust accordingly
+      subjects: mentorInfo.subjectsToTeach,
+    };
+  
     try {
-      const response = fetch('http://localhost:8080/api/user/register/mentor', {
+      const response = await fetch('http://localhost:8080/api/user/register/mentor', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(mentorInfo),
+        body: JSON.stringify(mentorData),
       });
+  
       if (!response.ok) throw new Error('Network response was not ok.');
-      const data = response.json();
-      console.log(data); // Handle success
+      //const data = await response.json();
+  
+      const userDetails = {
+        //accessToken: "Bearer " + user.accessToken,
+        username: mentorInfo.username,
+        role: 'mentor',
+      };
+  
+      localStorage.setItem('userDetails', JSON.stringify(userDetails));
+      //console.log('accessToken:', userDetails.accessToken);
+      console.log('Username:', userDetails.username);
+      console.log('Role:', userDetails.role);
+      
       alert('Signup successful!');
-      navigate('/home'); // Redirect to the home page
+      navigate('/home');
     } catch (error) {
       console.error('There has been a problem with your fetch operation:', error);
+      alert('Signup failed.');
     }
   };
+  
 
   return (
     <div className="form-container">

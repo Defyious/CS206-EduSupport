@@ -9,13 +9,39 @@ const LoginPage = () => {
     const navigate = useNavigate();
   
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    // Perform the login logic here
-    console.log({ username, role });
-    navigate('/home');
-    // On successful login, navigate to another page, e.g., '/home'
-  };
+    const handleLogin = async (e) => {
+      e.preventDefault();
+      try {
+        const response = await fetch(`http://localhost:8080/api/user/login/${role}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username }),
+        });
+    
+        if (!response.ok) throw new Error('Network response was not ok.');
+        const user = await response.json();
+    
+        const userDetails = {
+          //accessToken: "Bearer " + user.accessToken,
+          username: user.username,
+          roles: user.roles,
+        };
+    
+        localStorage.setItem('userDetails', JSON.stringify(userDetails));
+        //console.log('accessToken:', userDetails.accessToken);
+        console.log('Username:', userDetails.username);
+        console.log('Role:', userDetails.roles);
+        alert("Login Successful");
+        navigate("/home");
+      } catch (error) {
+        console.error('Login Error:', error);
+        alert('Login failed.');
+      }
+    };
+    
+    
 
   const navigateToSignUp = () => {
     navigate('/register'); // Adjust to your sign-up page route

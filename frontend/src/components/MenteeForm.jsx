@@ -20,29 +20,45 @@ const MenteeForm = () => {
     setMenteeInfo({ ...menteeInfo, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    localStorage.setItem('menteeInfo', JSON.stringify(menteeInfo));
-    alert('Signup successful!');
-    navigate('/home'); // Redirect to the home page
-        // Example POST request with fetch
-        // try {
-        //   const response = await fetch('YOUR_BACKEND_ENDPOINT/mentee', {
-        //     method: 'POST',
-        //     headers: {
-        //       'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify(menteeInfo),
-        //   });
-        //   if (!response.ok) throw new Error('Network response was not ok.');
-        //   const data = await response.json();
-        //   alert('Signup successful!');
-        //   navigate('/'); // Redirect to the home page
-        // } catch (error) {
-        //   console.error('There has been a problem with your fetch operation:', error);
-        // }
+    const menteeData = {
+      username: menteeInfo.username,
+      educationLevel: menteeInfo.educationLevel,
+      isPremium: 'true', // or 'true', as per your business logic
+    };
+  
+    try {
+      const response = await fetch('http://localhost:8080/api/user/register/mentee', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(menteeData),
+      });
+  
+      if (!response.ok) throw new Error('Network response was not ok.');
+      //const data = await response.json();
 
+      const userDetails = {
+        //accessToken: "Bearer " + user.accessToken,
+        username: menteeInfo.username,
+        role: 'mentee',
+      };
+  
+      localStorage.setItem('userDetails', JSON.stringify(userDetails));
+      //console.log('accessToken:', userDetails.accessToken);
+      console.log('Username:', userDetails.username);
+      console.log('Role:', userDetails.role);
+    
+      alert('Signup successful!');
+      navigate('/home');
+    } catch (error) {
+      console.error('There has been a problem with your fetch operation:', error);
+      alert('Signup failed.');
+    }
   };
+  
 
   return (
     <div className="form-container">
