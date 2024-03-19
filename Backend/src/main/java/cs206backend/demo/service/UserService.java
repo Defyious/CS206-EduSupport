@@ -15,6 +15,7 @@ import cs206backend.demo.models.SubjectEntity;
 import cs206backend.demo.models.enums.EducationLevel;
 import cs206backend.demo.models.enums.Subject;
 import cs206backend.demo.payload.exception.usernameExistException;
+import cs206backend.demo.payload.request.UpdateRequest;
 import cs206backend.demo.repository.MenteeRepository;
 import cs206backend.demo.repository.MentorRepository;
 import cs206backend.demo.repository.SubjectRepository;
@@ -60,6 +61,10 @@ public class UserService {
         return mentor;
     }
 
+    public Mentor getMentor(Long id) throws NoSuchElementException {
+        Mentor mentor = mentorRepository.findById(id).get();
+        return mentor;
+    }
     public Mentee loginMentee(String username) throws NoSuchElementException{
 
         Mentee mentee = menteeRepository.findByUsername(username).get();
@@ -71,6 +76,19 @@ public class UserService {
         Mentor mentor = mentorRepository.findByUsername(username).get();
         mentor.setOnline(true);
         return mentor;
+    }
+
+    @Transactional
+    public Mentor updateAvailabilityTiming(Long id, String newAvailabilityTiming) {
+        // Fetch the mentor by id
+        Mentor mentor = mentorRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Mentor not found with id: " + id));
+        
+        // Update the availability timing
+        mentor.setAvailabilityTiming(newAvailabilityTiming);
+        
+        // Save the updated mentor back to the database
+        return mentorRepository.save(mentor);
     }
 
 }

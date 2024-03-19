@@ -20,9 +20,11 @@ import cs206backend.demo.models.enums.Subject;
 import cs206backend.demo.payload.request.LoginRequest;
 import cs206backend.demo.payload.request.MenteeRegRequest;
 import cs206backend.demo.payload.request.MentorRegRequest;
+import cs206backend.demo.payload.request.UpdateRequest;
 import cs206backend.demo.payload.response.MessageResponse;
 import cs206backend.demo.service.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,10 +41,26 @@ public class UserController {
         this.userService = userService;
     }
 
-    // @GetMapping("/details/{userID}")
-    // public String getMethodName(@RequestParam String param) {
-    //     return new String();
-    // }
+    @GetMapping("/details/{userID}")
+    public ResponseEntity<?> getMentor(@PathVariable long userID) {
+        try {
+            Mentor mentor = userService.getMentor(userID);
+            return ResponseEntity.ok(mentor);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/details/update/{userID}")
+    public ResponseEntity<?> updateMentorAvailability(@PathVariable long userID, @RequestBody UpdateRequest update) {
+        try {
+            Mentor mentor = userService.updateAvailabilityTiming(userID, update.getAvailability());
+            return ResponseEntity.ok(mentor);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
 
     @PostMapping("/register/mentee")
     public ResponseEntity<?> registerMentee(@Valid @RequestBody MenteeRegRequest menteeRegRequest) {

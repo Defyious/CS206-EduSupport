@@ -19,12 +19,13 @@ public class Question {
 
     private String title;
     private String content;
-    private String imageURL;
+
+    @Lob
+    private byte[] image;
     private boolean solved;
 
     private EducationLevel eduLevel;
     private Subject subject;
-    private String topic;
 
     @ManyToOne
     @JoinColumn(name = "mentee_id")
