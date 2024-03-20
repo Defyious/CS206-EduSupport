@@ -45,6 +45,7 @@ public class UserController {
     public ResponseEntity<?> getMentor(@PathVariable long userID) {
         try {
             Mentor mentor = userService.getMentor(userID);
+            mentor.setAnswers(null);
             return ResponseEntity.ok(mentor);
         } catch (NoSuchElementException e) {
             return ResponseEntity.notFound().build();
@@ -55,7 +56,7 @@ public class UserController {
     public ResponseEntity<?> updateMentorAvailability(@PathVariable long userID, @RequestBody UpdateRequest update) {
         try {
             Mentor mentor = userService.updateAvailabilityTiming(userID, update.getAvailability());
-            return ResponseEntity.ok(mentor);
+            return ResponseEntity.ok(mentor.getId());
         } catch (NoSuchElementException e) {
             return ResponseEntity.notFound().build();
         }
@@ -69,8 +70,8 @@ public class UserController {
         EducationLevel eduLevel = EducationLevel.getENUMEduLevel(menteeRegRequest.getEducationLevel());
         boolean isPremium = Boolean.parseBoolean(menteeRegRequest.getIsPremium());
         try {
-            userService.registerMentee(username, eduLevel, isPremium);
-            return ResponseEntity.ok("Mentee Registered");
+            Mentee mentee = userService.registerMentee(username, eduLevel, isPremium);
+            return ResponseEntity.ok(mentee.getId());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -90,8 +91,8 @@ public class UserController {
         }
         
         try {
-            userService.registerMentor(username, eduLevel, subjects, availabilityTiming);
-            return ResponseEntity.ok("Mentor Registered");
+            Mentor mentor = userService.registerMentor(username, eduLevel, subjects, availabilityTiming);
+            return ResponseEntity.ok(mentor.getId());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -102,7 +103,7 @@ public class UserController {
 
         try {
             Mentee mentee = userService.loginMentee(loginRequest.getUsername());
-            return ResponseEntity.ok(mentee);
+            return ResponseEntity.ok(mentee.getId());
         } catch (NoSuchElementException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -113,7 +114,7 @@ public class UserController {
         
         try {
             Mentor mentor = userService.loginMentor(loginRequest.getUsername());
-            return ResponseEntity.ok(mentor);
+            return ResponseEntity.ok(mentor.getId());
         } catch (NoSuchElementException e) {
             return ResponseEntity.badRequest().body(e.toString());
         }
