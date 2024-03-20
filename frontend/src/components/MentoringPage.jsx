@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MyNavbar from './Navbar';
 import "./CSS/FormStyles.css";
+import { getUserDetails } from './utils'; 
 
 const MentoringPage = () => {
     const educationLevels = [
@@ -37,6 +38,64 @@ const MentoringPage = () => {
       reader.readAsDataURL(file);
     }
   };
+
+  const createFormData = () => {
+    const formData = new FormData();
+    formData.append('menteeID', getUserDetails().username);
+    formData.append('title', question.title);
+    formData.append('educationLevel', question.educationLevel);
+    formData.append('subject', question.subject);
+    formData.append('description', question.description);
+    if (question.image) {
+      formData.append('file', question.image);
+  }
+    return formData;
+  };
+
+  const uploadQuestionToForum = async () => {
+    const formData = createFormData();
+    try {
+      // Make the POST request
+      const response = await fetch('http://localhost:8080/api/post/question', {
+        method: 'POST',
+        body: formData, // Send the form data
+      });
+  
+      if (!response.ok) throw new Error('Network response was not ok.');
+      const data = await response.json();
+  
+      // Handle the response as per your requirement
+      console.log(data);
+      alert('Question uploaded successfully!');
+      navigate('/forum'); // Redirect to the forum page or any other page as needed
+    } catch (error) {
+      console.error('There was an error uploading the question:', error);
+      alert('Failed to upload the question.');
+    }
+};
+
+const handleRandomMatching = async () => {
+  const formData = createFormData();
+  // Perform the API call for random matching
+  navigate('/random-matching')
+  try {
+    const response = await fetch('http://localhost:8080/api/random-matching', { // Use your actual API endpoint
+      method: 'POST',
+      body: formData,
+    });
+
+    if (!response.ok) throw new Error('Network response was not ok.');
+    const data = await response.json();
+
+    // Handle the response data from random matching
+    console.log(data);
+    alert('Random matching initiated!');
+    // Navigate to the appropriate page after matching
+  } catch (error) {
+    console.error('Error with random matching:', error);
+    alert('Random matching failed.');
+  }
+};
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -91,9 +150,9 @@ const MentoringPage = () => {
             className="description-textarea" // Apply specific class for additional styling
           />
         <div className="button-group">
-            <button type="submit" className="form-button">Upload Qn to Forum</button>
+        <button type="button" className="form-button" onClick={uploadQuestionToForum}>Upload Qn to Forum</button>
             <button type="button" className="form-button" onClick={() => navigate('/selective-matching')}>Selective Matching</button>
-            <button type="button" className="form-button" onClick={() => navigate('/random-matching')}>Random Matching</button>
+            <button type="button" className="form-button" onClick={handleRandomMatching}>Random Matching</button>
           </div>
         </form>
       </div>
