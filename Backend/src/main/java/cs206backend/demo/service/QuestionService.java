@@ -3,12 +3,14 @@ package cs206backend.demo.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import cs206backend.demo.models.Mentee;
 import cs206backend.demo.models.Question;
 import cs206backend.demo.repository.MenteeRepository;
 import cs206backend.demo.repository.QuestionRepository;
 
+@Service
 public class QuestionService {
 
     @Autowired

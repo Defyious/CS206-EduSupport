@@ -17,7 +17,6 @@ public class UserStatusService {
     private MentorRepository mentorRepository;
 
     public void updateUserStatus(long id, boolean isOnline) {
-        // TODO Auto-generated method stub
         Optional<Mentor> mentor = mentorRepository.findById(id);
         mentor.ifPresent(m -> {
             m.setLastOnline(System.currentTimeMillis());
