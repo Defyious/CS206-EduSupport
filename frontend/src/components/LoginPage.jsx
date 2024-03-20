@@ -25,12 +25,14 @@ const LoginPage = () => {
     
         const userDetails = {
           //accessToken: "Bearer " + user.accessToken,
+          userID: user,
           username: user.username,
           roles: user.roles,
         };
     
         localStorage.setItem('userDetails', JSON.stringify(userDetails));
         //console.log('accessToken:', userDetails.accessToken);
+        console.log('UserID:', userDetails.userID);
         console.log('Username:', userDetails.username);
         console.log('Role:', userDetails.roles);
         alert("Login Successful");

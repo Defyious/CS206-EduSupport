@@ -41,7 +41,7 @@ const MentoringPage = () => {
 
   const createFormData = () => {
     const formData = new FormData();
-    formData.append('menteeID', getUserDetails().username);
+    formData.append('menteeID', getUserDetails().userID);
     formData.append('title', question.title);
     formData.append('educationLevel', question.educationLevel);
     formData.append('subject', question.subject);

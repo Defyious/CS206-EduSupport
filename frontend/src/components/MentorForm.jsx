@@ -51,16 +51,18 @@ const MentorForm = () => {
       });
   
       if (!response.ok) throw new Error('Network response was not ok.');
-      //const data = await response.json();
+      const userID = await response.json(); 
   
       const userDetails = {
         //accessToken: "Bearer " + user.accessToken,
+        userID: userID,
         username: mentorInfo.username,
         role: 'mentor',
       };
   
       localStorage.setItem('userDetails', JSON.stringify(userDetails));
       //console.log('accessToken:', userDetails.accessToken);
+      console.log('UserID:', userDetails.userID);
       console.log('Username:', userDetails.username);
       console.log('Role:', userDetails.role);
       
