@@ -1,8 +1,11 @@
 package cs206backend.demo.models;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
 import java.util.*;
+
+import javax.validation.constraints.Null;
 
 import cs206backend.demo.models.enums.EducationLevel;
 import cs206backend.demo.models.enums.Subject;
@@ -12,6 +15,8 @@ import lombok.*;
 @Entity
 @Table(name = "question")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,11 +26,12 @@ public class Question {
     private String content;
 
     @Lob
+    @Column(name = "image", length = 10000)
     private byte[] image;
-    private boolean solved;
 
-    private EducationLevel eduLevel;
-    private Subject subject;
+    private boolean solved;
+    private int eduLevel;
+    private String subject;
 
     @ManyToOne
     @JoinColumn(name = "mentee_id")
@@ -34,4 +40,12 @@ public class Question {
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<Answer> answers;
 
+    public Question(String title, String content, byte[] image, int eduLevel, String subject, Mentee mentee) {
+        this.title = title;
+        this.content = content;
+        this.image = image;
+        this.eduLevel = eduLevel;
+        this.subject = subject;
+        this.solved = false;
+    }
 }

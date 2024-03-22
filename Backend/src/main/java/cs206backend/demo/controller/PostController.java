@@ -17,8 +17,11 @@ import cs206backend.demo.models.enums.EducationLevel;
 import cs206backend.demo.models.enums.Subject;
 import cs206backend.demo.repository.AnswerRepository;
 import cs206backend.demo.repository.QuestionRepository;
+import cs206backend.demo.repository.SubjectRepository;
 import cs206backend.demo.service.AnswerService;
 import cs206backend.demo.service.QuestionService;
+import cs206backend.demo.service.util.imageUtils;
+import jakarta.transaction.Transactional;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,6 +39,9 @@ public class PostController {
     private AnswerService answerService;
 
     @Autowired
+    private SubjectRepository questionRepository;
+
+    @Autowired
     public PostController(QuestionService questionService, AnswerService answerService) {
         this.questionService = questionService;
         this.answerService = answerService;
@@ -50,15 +56,8 @@ public class PostController {
             @RequestParam("description") String description,
             @RequestParam("file") MultipartFile file) throws IOException {
 
-        Question question = new Question();
-        question.setTitle(title);
-        question.setEduLevel(EducationLevel.getENUMEduLevel(educationLevel));
-        question.setSubject(Subject.getENUMSubject(subject));
-        question.setContent(description);
-        question.setImage(file.getBytes()); // Convert MultipartFile to byte[] and set
-
         try {
-            question = questionService.createQuestion(question, menteeId);
+            Question question = questionService.createQuestion(menteeId, title, educationLevel, subject, description, file);
             return ResponseEntity.ok(question);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Invalid Inputs");
