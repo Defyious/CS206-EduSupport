@@ -33,19 +33,27 @@ public class Question {
     private int eduLevel;
     private String subject;
 
-    @ManyToOne
-    @JoinColumn(name = "mentee_id")
-    private Mentee mentee;
+    private long menteeID;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<Answer> answers;
 
-    public Question(String title, String content, byte[] image, int eduLevel, String subject, Mentee mentee) {
+    public Question(String title, String content, byte[] image, int eduLevel, String subject, Long menteeID) {
         this.title = title;
         this.content = content;
         this.image = image;
         this.eduLevel = eduLevel;
         this.subject = subject;
         this.solved = false;
+        this.menteeID = menteeID;
+    }
+
+    public Question(String title, String content, int eduLevel, String subject, Long menteeID) {
+        this.title = title;
+        this.content = content;
+        this.eduLevel = eduLevel;
+        this.subject = subject;
+        this.solved = false;
+        this.menteeID = menteeID;
     }
 }

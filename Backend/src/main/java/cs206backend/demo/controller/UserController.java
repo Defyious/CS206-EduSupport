@@ -45,7 +45,6 @@ public class UserController {
     public ResponseEntity<?> getMentor(@PathVariable long userID) {
         try {
             Mentor mentor = userService.getMentor(userID);
-            mentor.setAnswers(null);
             return ResponseEntity.ok(mentor);
         } catch (NoSuchElementException e) {
             return ResponseEntity.notFound().build();

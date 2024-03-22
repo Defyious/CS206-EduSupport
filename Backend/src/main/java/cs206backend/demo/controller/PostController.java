@@ -3,8 +3,11 @@ package cs206backend.demo.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import cs206backend.demo.models.Question;
 import cs206backend.demo.models.enums.EducationLevel;
 import cs206backend.demo.models.enums.Subject;
+import cs206backend.demo.payload.response.QuestionResponse;
 import cs206backend.demo.repository.AnswerRepository;
 import cs206backend.demo.repository.QuestionRepository;
 import cs206backend.demo.repository.SubjectRepository;
@@ -39,9 +43,6 @@ public class PostController {
     private AnswerService answerService;
 
     @Autowired
-    private SubjectRepository questionRepository;
-
-    @Autowired
     public PostController(QuestionService questionService, AnswerService answerService) {
         this.questionService = questionService;
         this.answerService = answerService;
@@ -49,15 +50,14 @@ public class PostController {
     
     @PostMapping("/question")
     public ResponseEntity<?> uploadQuestion(
-            @RequestParam("menteeID") Long menteeId,
+            @RequestParam("menteeID") Long menteeID,
             @RequestParam("title") String title,
             @RequestParam("educationLevel") String educationLevel,
             @RequestParam("subject") String subject,
             @RequestParam("description") String description,
-            @RequestParam("file") MultipartFile file) throws IOException {
-
+            @RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
         try {
-            Question question = questionService.createQuestion(menteeId, title, educationLevel, subject, description, file);
+            Question question = questionService.createQuestion(menteeID, title, educationLevel, subject, description, file);
             return ResponseEntity.ok(question);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Invalid Inputs");
@@ -65,34 +65,60 @@ public class PostController {
     }
 
     @GetMapping("/question/{questionId}")
-    public ResponseEntity<?> getQuestion(@PathVariable Long id) {
+    public ResponseEntity<?> getQuestion(@PathVariable Long questionId) {
         try {
-            Question question = questionService.getQuestion(id);
-            return ResponseEntity.ok(question);
+            Question qn = questionService.getQuestion(questionId);
+            QuestionResponse res = new QuestionResponse(qn.getId(), qn.getTitle(), qn.getContent(),
+                                     EducationLevel.fromInt(qn.getEduLevel()).toString(), qn.getSubject(),
+                                     qn.getMenteeID());
+            return ResponseEntity.ok(res);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e);
         }
     }
 
     @GetMapping("/questions/{menteeId}")
-    public ResponseEntity<?> getQuestionsByMentee(@PathVariable Long id) {
-        try {
-            List<Question> question = questionService.getAllQuestionByMentee(id);
-            return ResponseEntity.ok(question);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e);
-        }
+    public ResponseEntity<?> getQuestionsByMentee(@PathVariable Long menteeId) {
+    try {
+        List<Question> questions = questionService.getAllQuestionByMentee(menteeId);
+        List<QuestionResponse> responses = questions.stream()
+                .map(qn -> new QuestionResponse(qn.getId(), qn.getTitle(), qn.getContent(),
+                        EducationLevel.fromInt(qn.getEduLevel()).toString(), qn.getSubject(),
+                        qn.getMenteeID()))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(responses);
+    } catch (Exception e) {
+        return ResponseEntity.badRequest().body(e.getMessage()); // It's better to return the message rather than the stack trace
     }
+}
 
     @GetMapping("questions")
     public ResponseEntity<?> getAllQuestions() {
         try {
-            List<Question> question = questionService.getAllQuestions();
-            return ResponseEntity.ok(question);
+            List<Question> questions = questionService.getAllQuestions();
+            List<QuestionResponse> responses = questions.stream()
+                    .map(qn -> new QuestionResponse(qn.getId(), qn.getTitle(), qn.getContent(),
+                            EducationLevel.fromInt(qn.getEduLevel()).toString(), qn.getSubject(),
+                            qn.getMenteeID()))
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(responses);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("image/{questionId}")
+    public ResponseEntity<?> getMethodName(@PathVariable Long questionId) {
+        try {
+            byte[] img = questionService.getImage(questionId);
+            return ResponseEntity.status(HttpStatus.OK)
+                    .contentType(MediaType.valueOf("image/png"))
+                    .body(img);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e);
         }
     }
+    
     
     @PostMapping("question/{questionId}/update/{isSolved}")
     public ResponseEntity<?> isQuestionResolved(@PathVariable Long id, Boolean isSolved) {

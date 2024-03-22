@@ -21,10 +21,7 @@ public class Mentee {
     private int educationLevel;
 
     private boolean isPremium;
-
-    @OneToMany(mappedBy = "mentee", cascade = CascadeType.ALL)
-    private List<Question> questions;
-
+    
     @OneToMany(mappedBy = "mentee", cascade = CascadeType.ALL)
     private List<MentorMentee> mentorMentees;
 

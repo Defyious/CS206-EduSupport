@@ -32,8 +32,6 @@ public class Mentor {
     private boolean isOnline;
     private long lastOnline;
     
-    @OneToMany(mappedBy = "mentor", cascade = CascadeType.ALL)
-    private List<Answer> answers;
 
     @OneToMany(mappedBy = "mentor", cascade = CascadeType.ALL)
     private List<MentorMentee> mentorMentees;

@@ -2,6 +2,7 @@ package cs206backend.demo.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,28 +27,41 @@ public class QuestionService {
 
     @Transactional
     public Question createQuestion(Long menteeId, String title, String educationLevel, String subject, String description, MultipartFile file) throws IOException {
-        Mentee mentee = menteeRepository.findById(menteeId).get();
         int eduLevel = EducationLevel.getENUMEduLevel(educationLevel).getValue();
-        byte[] compressedImage = imageUtils.compressImage(file.getBytes());
-        Question question = new Question(title, description, compressedImage, eduLevel, subject, mentee);
+        Question question;
+        if (file == null) {
+            question = new Question(title, description, eduLevel, subject, menteeId);
+        } else {
+            byte[] compressedImage = imageUtils.compressImage(file.getBytes());
+            question = new Question(title, description, compressedImage, eduLevel, subject, menteeId);
+        }
+        // System.out.println(question.getMentee().getId());
         questionRepository.save(question);
         return question;
     }
 
-    public Question getQuestion(Long id) {
-        // TODO Auto-generated method stub
+    public byte[] getImage(long id) {
         Question question = questionRepository.findById(id).get();
-        decompressImage(question);
+        return imageUtils.decompressImage(question.getImage());
+    }
+
+    public Question getQuestion(Long id) {
+        Question question = questionRepository.findById(id).get();
         return question;
     }
 
     public List<Question> getAllQuestionByMentee(Long id) {
-        Mentee mentee = menteeRepository.findById(id).get();
-        return mentee.getQuestions();
+        return questionRepository.findAll()
+            .stream()
+            .filter(question -> question.getMenteeID() == id) // Assuming isResolved() method exists
+            .collect(Collectors.toList());
     }
 
     public List<Question> getAllQuestions() {
-        return questionRepository.findAll();
+        return questionRepository.findAll()
+            .stream()
+            .filter(question -> !question.isSolved()) // Assuming isResolved() method exists
+            .collect(Collectors.toList());
     }
 
     public Question updateQuestion(Long id, Boolean isSolved) {

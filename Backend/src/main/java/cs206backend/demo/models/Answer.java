@@ -20,9 +20,5 @@ public class Answer {
     @JoinColumn(name = "question_id")
     private Question question;
 
-    @ManyToOne
-    @JoinColumn(name = "mentor_id")
-    private Mentor mentor;
-
     // Constructors, getters, and setters
 }
