@@ -3,6 +3,8 @@ package cs206backend.demo.models;
 import jakarta.persistence.*;
 import java.util.*;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import cs206backend.demo.models.enums.EducationLevel;
 import cs206backend.demo.models.enums.Subject;
 import lombok.*;
@@ -18,8 +20,9 @@ public class Mentor {
     private String username;
     private String availabilityTiming;
 
-    private float rating;
-    private int numRatings;
+    @OneToMany(mappedBy = "mentor", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Rating> ratings = new ArrayList<>();
     
     private int educationLevel;
 
@@ -31,10 +34,9 @@ public class Mentor {
 
     private boolean isOnline;
     private long lastOnline;
-    
 
-    @OneToMany(mappedBy = "mentor", cascade = CascadeType.ALL)
-    private List<MentorMentee> mentorMentees;
+    private long menteeRequest; // store menteeID else 0
+    private long questionRequest; // store questionID else 0
 
     public Mentor(String username, int educationLevel, String availabilityTiming) {
         this.username = username;

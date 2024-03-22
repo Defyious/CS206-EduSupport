@@ -6,7 +6,6 @@ import java.util.NoSuchElementException;
 
 import javax.validation.Valid;
 
-import org.aspectj.bridge.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,6 +22,8 @@ import cs206backend.demo.payload.request.MentorRegRequest;
 import cs206backend.demo.payload.request.UpdateRequest;
 import cs206backend.demo.payload.response.MessageResponse;
 import cs206backend.demo.service.UserService;
+import jakarta.websocket.server.PathParam;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -50,12 +51,13 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
+    
 
     @PostMapping("/details/update/{userID}")
     public ResponseEntity<?> updateMentorAvailability(@PathVariable long userID, @RequestBody UpdateRequest update) {
         try {
             Mentor mentor = userService.updateAvailabilityTiming(userID, update.getAvailability());
-            return ResponseEntity.ok(mentor.getId());
+            return ResponseEntity.ok(mentor.getAvailabilityTiming());
         } catch (NoSuchElementException e) {
             return ResponseEntity.notFound().build();
         }
@@ -70,7 +72,7 @@ public class UserController {
         boolean isPremium = Boolean.parseBoolean(menteeRegRequest.getIsPremium());
         try {
             Mentee mentee = userService.registerMentee(username, eduLevel, isPremium);
-            return ResponseEntity.ok(mentee.getId());
+            return ResponseEntity.ok(mentee);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -91,7 +93,7 @@ public class UserController {
         
         try {
             Mentor mentor = userService.registerMentor(username, eduLevel, subjects, availabilityTiming);
-            return ResponseEntity.ok(mentor.getId());
+            return ResponseEntity.ok(mentor);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -117,6 +119,13 @@ public class UserController {
         } catch (NoSuchElementException e) {
             return ResponseEntity.badRequest().body(e.toString());
         }
+    }
+    
+    @GetMapping("/mentor/{mentorId}/rating")
+    public ResponseEntity<?> postMethodName(@PathVariable long mentorId) {
+        System.out.println(mentorId);
+        return ResponseEntity.ok().body(userService.getRating(mentorId));
+         
     }
     
 }

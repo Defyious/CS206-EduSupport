@@ -32,6 +32,7 @@ public class Question {
     private boolean solved;
     private int eduLevel;
     private String subject;
+    private boolean foundMentor;
 
     private long menteeID;
 
@@ -55,5 +56,9 @@ public class Question {
         this.subject = subject;
         this.solved = false;
         this.menteeID = menteeID;
+    }
+
+    public boolean getFound() {
+        return foundMentor;
     }
 }

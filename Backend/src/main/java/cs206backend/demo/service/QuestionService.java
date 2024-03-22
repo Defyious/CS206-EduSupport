@@ -71,8 +71,21 @@ public class QuestionService {
        return question;
     }
 
+    public Question updateMentor(Long id, Boolean found) {
+        Question question = questionRepository.findById(id).get();
+        question.setFoundMentor(found);
+        questionRepository.save(question);
+        return question;
+     }
+
     public void decompressImage(Question question) {
         question.setImage(imageUtils.decompressImage(question.getImage()));
+    }
+
+    public boolean checkQuestion(long id) {
+        Question question = questionRepository.findById(id).get();
+        System.out.println(question.toString());
+        return question.getFound();
     }
     
 }

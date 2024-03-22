@@ -24,5 +24,7 @@ public interface MentorRepository extends JpaRepository<Mentor, Long> {
 
     @Query("SELECT m FROM Mentor m WHERE m.lastOnline < :threshold AND m.isOnline = true")
     List<Mentor> findMentorsLastActiveBefore(long threshold);
+
+    List<Mentor> findByEducationLevelGreaterThanAndIsOnlineTrue(int educationLevel);
 }
 

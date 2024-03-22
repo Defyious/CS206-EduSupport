@@ -108,7 +108,7 @@ public class PostController {
     }
 
     @GetMapping("image/{questionId}")
-    public ResponseEntity<?> getMethodName(@PathVariable Long questionId) {
+    public ResponseEntity<?> getImage(@PathVariable Long questionId) {
         try {
             byte[] img = questionService.getImage(questionId);
             return ResponseEntity.status(HttpStatus.OK)
