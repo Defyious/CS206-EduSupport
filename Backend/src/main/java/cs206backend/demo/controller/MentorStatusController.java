@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import cs206backend.demo.payload.request.StatusUpdateRequest;
 import cs206backend.demo.service.UserStatusService;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,7 @@ public class MentorStatusController {
     private UserStatusService UserStatusService;
 
     @PostMapping("/update")
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<?> updateStatus(@RequestBody StatusUpdateRequest request) {
         UserStatusService.updateUserStatus(request.getUserID(), request.isOnline());
         return ResponseEntity.ok().build();
