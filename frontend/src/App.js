@@ -12,6 +12,7 @@ import LoginPage from './components/LoginPage';
 import ProfilePage from './components/Profile';
 import './App.css'; // Make sure to import the stylesheet
 import 'bootstrap/dist/css/bootstrap.min.css';
+import TestForumPage from './components/TestForumPage';
 
 function App() {
   return (
@@ -28,6 +29,8 @@ function App() {
         <Route path="/register" element={<Selection />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/" element={<LoginPage />} />
+        {/* Test by Juyoung */}
+        <Route path="/test" element={<TestForumPage />} />
       </Routes>
     </Router>
     </div>
