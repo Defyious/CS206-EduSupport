@@ -82,15 +82,15 @@ const MentorRandomMatching = () => {
 
             // Call the API to respond to the question
             const responseUrl = `http://localhost:8080/api/matching/mentor/response/${user.userID.id}?response=accept`;
-            const response = await fetch(responseUrl, {
+            const responses = await fetch(responseUrl, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
               }, // Assuming 'accept' is the response
             });
             // if (!response.ok) throw new Error('Response API: Network response was not ok.');
-            const responseData = await response.json();
-            console.log('Response API Response:', responseData);
+            // const responseData = await responses.json();
+            console.log('Response API Response:', responses);
             clearInterval(intervalId); // Clear the interval on successful response
 
           } else {
