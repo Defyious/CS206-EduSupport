@@ -12,6 +12,7 @@ const SelectiveMatching = () => {
   useEffect(() => {
     const fetchAvailableMentors = async () => {
       try {
+        console.log(userDetails.userID);
         const response = await fetch(`http://localhost:8080/api/matching/mentee/getMentors/${userDetails.userID}`);
         if (!response.ok) {
           throw new Error('Network response was not ok');

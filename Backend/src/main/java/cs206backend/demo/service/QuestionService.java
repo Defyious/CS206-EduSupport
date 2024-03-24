@@ -88,8 +88,9 @@ public class QuestionService {
     }
 
     public boolean checkQuestion(long id) {
+        System.out.println("hehe1");
         Question question = questionRepository.findById(id).get();
-        System.out.println(question.toString());
+        System.out.println(question.getFound());
         return question.getFound();
     }
     
