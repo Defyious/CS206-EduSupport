@@ -26,14 +26,18 @@ public class QuestionService {
     private MenteeRepository menteeRepository;
 
     @Transactional
-    public Question createQuestion(Long menteeId, String title, String educationLevel, String subject, String description, MultipartFile file) throws IOException {
+    public Question createQuestion(Long menteeId, String title, String educationLevel, String subject, String description, MultipartFile file, String type) throws IOException {
         int eduLevel = EducationLevel.getENUMEduLevel(educationLevel).getValue();
         Question question;
+        boolean isForum = false; 
+        if (type.equals("forum")) {
+            isForum = true;
+        }
         if (file == null) {
-            question = new Question(title, description, eduLevel, subject, menteeId);
+            question = new Question(title, description, eduLevel, subject, menteeId, isForum);
         } else {
             byte[] compressedImage = imageUtils.compressImage(file.getBytes());
-            question = new Question(title, description, compressedImage, eduLevel, subject, menteeId);
+            question = new Question(title, description, compressedImage, eduLevel, subject, menteeId, isForum);
         }
         // System.out.println(question.getMentee().getId());
         questionRepository.save(question);
@@ -61,6 +65,7 @@ public class QuestionService {
         return questionRepository.findAll()
             .stream()
             .filter(question -> !question.isSolved()) // Assuming isResolved() method exists
+            .filter(question -> question.isForum())
             .collect(Collectors.toList());
     }
 

@@ -55,9 +55,10 @@ public class PostController {
             @RequestParam("educationLevel") String educationLevel,
             @RequestParam("subject") String subject,
             @RequestParam("description") String description,
-            @RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
+            @RequestParam(value = "file", required = false) MultipartFile file,
+            @RequestParam("type") String type) throws IOException {
         try {
-            Question question = questionService.createQuestion(menteeID, title, educationLevel, subject, description, file);
+            Question question = questionService.createQuestion(menteeID, title, educationLevel, subject, description, file, type);
             return ResponseEntity.ok(question);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Invalid Inputs");

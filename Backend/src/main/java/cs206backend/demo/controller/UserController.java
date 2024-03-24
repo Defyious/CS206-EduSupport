@@ -88,7 +88,7 @@ public class UserController {
         List<String> subjectsPreFormating = mentorRegRequest.getSubjects();
         for (String s : subjectsPreFormating) {
             subjects.add(Subject.getENUMSubject(s));
-            // System.out.println(Subject.getENUMSubject(s));
+            System.out.println(Subject.getENUMSubject(s));
         }
         
         try {

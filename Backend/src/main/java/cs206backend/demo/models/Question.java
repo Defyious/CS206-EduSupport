@@ -32,6 +32,7 @@ public class Question {
     private boolean solved;
     private int eduLevel;
     private String subject;
+    private boolean isForum;
     private boolean foundMentor;
 
     private long menteeID;
@@ -39,7 +40,7 @@ public class Question {
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<Answer> answers;
 
-    public Question(String title, String content, byte[] image, int eduLevel, String subject, Long menteeID) {
+    public Question(String title, String content, byte[] image, int eduLevel, String subject, Long menteeID, Boolean isForum) {
         this.title = title;
         this.content = content;
         this.image = image;
@@ -47,18 +48,28 @@ public class Question {
         this.subject = subject;
         this.solved = false;
         this.menteeID = menteeID;
+        this.isForum = isForum;
     }
 
-    public Question(String title, String content, int eduLevel, String subject, Long menteeID) {
+    public Question(String title, String content, int eduLevel, String subject, Long menteeID, Boolean isForum) {
         this.title = title;
         this.content = content;
         this.eduLevel = eduLevel;
         this.subject = subject;
         this.solved = false;
         this.menteeID = menteeID;
+        this.isForum = isForum;
     }
 
     public boolean getFound() {
         return foundMentor;
+    }
+
+    public boolean isSolved() {
+        return solved;
+    }
+
+    public boolean isForum() {
+        return isForum;
     }
 }
