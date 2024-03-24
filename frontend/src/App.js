@@ -10,6 +10,7 @@ import MentoringPage from './components/MentoringPage';
 import ForumPage from './components/ForumPage';
 import LoginPage from './components/LoginPage';
 import ProfilePage from './components/Profile';
+import MentorRandomMatching from './components/MentorRandomMatching';
 import './App.css'; // Make sure to import the stylesheet
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -18,6 +19,7 @@ function App() {
     <div className="App">
     <Router>
       <Routes>
+        <Route path="/mentor-match" element={<MentorRandomMatching />} />
         <Route path="/mentee-form" element={<MenteeForm />} />
         <Route path="/mentor-form" element={<MentorForm />} />
         <Route path="/random-matching" element={<RandomMatching />} />
