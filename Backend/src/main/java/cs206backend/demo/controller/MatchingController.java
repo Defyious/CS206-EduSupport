@@ -51,6 +51,7 @@ public class MatchingController {
     }
 
     @GetMapping("/mentor/{userId}")
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<?> mentorCheckPings(@PathVariable long userId) {
         List<Long> chk = userService.mentorCheck(userId);
         if (chk.get(0) == 0) {
