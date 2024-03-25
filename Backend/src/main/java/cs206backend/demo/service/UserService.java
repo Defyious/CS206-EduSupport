@@ -99,15 +99,19 @@ public class UserService {
         return mentorRepository.save(mentor);
     }
 
-    public List<Mentor> getAvailableMentors(long userId) {
+    public List<Mentor> getAvailableMentors(long userId, String subject) {
         // Retrieve the mentee's education level
         Mentee mentee = menteeRepository.findById(userId)
             .orElseThrow(() -> new EntityNotFoundException("Mentee not found with id: " + userId));
         int menteeEducationLevel = mentee.getEducationLevel();
 
         // Find mentors with a higher education level who are online
-        List<Mentor> availableMentors = mentorRepository.findByEducationLevelGreaterThanAndIsOnlineTrue(menteeEducationLevel);
-        return availableMentors;
+        List<Mentor> allMentors = mentorRepository.findByEducationLevelGreaterThanAndIsOnlineTrue(menteeEducationLevel);
+        List<Mentor> subjectMentors = allMentors.stream()
+        .filter(mentor -> mentor.getSubjects().stream()
+            .anyMatch(subjectEntity -> subjectEntity.getName().equalsIgnoreCase(subject)))
+        .collect(Collectors.toList());
+        return subjectMentors;
     }
 
     public void mentorPing(long menteeId, long mentorId, long questionId) {

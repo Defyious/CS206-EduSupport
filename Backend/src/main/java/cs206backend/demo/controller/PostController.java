@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import cs206backend.demo.models.Answer;
 import cs206backend.demo.models.Question;
 import cs206backend.demo.models.enums.EducationLevel;
 import cs206backend.demo.models.enums.Subject;
@@ -129,6 +130,28 @@ public class PostController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e);
         }
+    }
+
+    @PostMapping("question/{qnId}/answer") 
+    public ResponseEntity<?> createAnswer(@PathVariable Long qnId, 
+                        @RequestParam(value = "file", required = false) MultipartFile file,
+                        @RequestParam("content") String content) {
+        
+        try {
+            Answer answer = answerService.createAnswer(qnId, content, file);
+            return ResponseEntity.ok(answer);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Invalid Inputs");
+        }
+    }
+    
+    @GetMapping("question/{qnId}/answers")
+    public ResponseEntity<List<Answer>> getAnswersForQuestion(@PathVariable("qnId") Long questionId) {
+        List<Answer> answers = answerService.findAnswersByQuestionId(questionId);
+        if (answers.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(answers);
     }
     
 }
