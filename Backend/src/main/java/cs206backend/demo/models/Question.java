@@ -37,8 +37,8 @@ public class Question {
 
     private long menteeID;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
-    private List<Answer> answers;
+    // @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+    // private List<Answer> answers;
 
     public Question(String title, String content, byte[] image, int eduLevel, String subject, Long menteeID, Boolean isForum) {
         this.title = title;
