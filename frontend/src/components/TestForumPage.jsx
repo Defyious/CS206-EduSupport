@@ -610,25 +610,25 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
       </ul>
     </div>
     {/* Sidebar */}
-    <section id="sidebar">
+    {/* <section id="sidebar"> */}
       {/* Intro */}
-      <section id="intro">
-        <a href="#" className="logo">
+      {/* <section id="intro"> */}
+        {/* <a href="#" className="logo">
           <img src="images/logo.jpg" alt="" />
-        </a>
-        <header>
+        </a> */}
+        {/* <header>
           <h2>Future Imperfect</h2>
           <p>
             Another fine responsive site template by{" "}
             <a href="http://html5up.net">HTML5 UP</a>
           </p>
-        </header>
-      </section>
+        </header> */}
+      {/* </section> */}
       {/* Mini Posts */}
-      <section>
-        <div className="mini-posts">
+      {/* <section> */}
+        {/* <div className="mini-posts"> */}
           {/* Mini Post */}
-          <article className="mini-post">
+          {/* <article className="mini-post">
             <header>
               <h3>
                 <a href="single.html">Vitae sed condimentum</a>
@@ -643,9 +643,9 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
             <a href="single.html" className="image">
               <img src="images/pic04.jpg" alt="" />
             </a>
-          </article>
+          </article> */}
           {/* Mini Post */}
-          <article className="mini-post">
+          {/* <article className="mini-post">
             <header>
               <h3>
                 <a href="single.html">Rutrum neque accumsan</a>
@@ -660,9 +660,9 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
             <a href="single.html" className="image">
               <img src="images/pic05.jpg" alt="" />
             </a>
-          </article>
+          </article> */}
           {/* Mini Post */}
-          <article className="mini-post">
+          {/* <article className="mini-post">
             <header>
               <h3>
                 <a href="single.html">Odio congue mattis</a>
@@ -677,9 +677,9 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
             <a href="single.html" className="image">
               <img src="images/pic06.jpg" alt="" />
             </a>
-          </article>
+          </article> */}
           {/* Mini Post */}
-          <article className="mini-post">
+          {/* <article className="mini-post">
             <header>
               <h3>
                 <a href="single.html">Enim nisl veroeros</a>
@@ -694,11 +694,11 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
             <a href="single.html" className="image">
               <img src="images/pic07.jpg" alt="" />
             </a>
-          </article>
-        </div>
-      </section>
+          </article> */}
+        {/* </div> */}
+      {/* </section> */}
       {/* Posts List */}
-      <section>
+      {/* <section>
         <ul className="posts">
           <li>
             <article>
@@ -784,9 +784,9 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
             </article>
           </li>
         </ul>
-      </section>
+      </section> */}
       {/* About */}
-      <section className="blurb">
+      {/* <section className="blurb">
         <h2>About</h2>
         <p>
           Mauris neque quam, fermentum ut nisl vitae, convallis maximus nisl.
@@ -800,9 +800,9 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
             </a>
           </li>
         </ul>
-      </section>
+      </section> */}
       {/* Footer */}
-      <section id="footer">
+      {/* <section id="footer">
         <ul className="icons">
           <li>
             <a href="#" className="icon brands fa-twitter">
@@ -834,8 +834,8 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
           © Untitled. Design: <a href="http://html5up.net">HTML5 UP</a>. Images:{" "}
           <a href="http://unsplash.com">Unsplash</a>.
         </p>
-      </section>
-    </section>
+      </section> */}
+    {/* </section> */}
   </div>
   {/* Scripts */}
 </>
