@@ -5,13 +5,14 @@ import org.springframework.data.jpa.repository.cdi.JpaRepositoryExtension;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import cs206backend.demo.models.Answer;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 @Repository
 @Transactional
-@Repository
 public interface AnswerRepository extends JpaRepository<Answer, Long> {
     // Methods to find answers, for example by question
 }

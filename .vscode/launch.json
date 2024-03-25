@@ -1,0 +1,35 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "EduSupportBackend",
+            "request": "launch",
+            "mainClass": "cs206backend.demo.EduSupportBackend",
+            "projectName": "demo"
+        },
+        {
+            "type": "java",
+            "name": "EducSupportBackend",
+            "request": "launch",
+            "mainClass": "cs206backend.demo.EducSupportBackend",
+            "projectName": "demo"
+        },
+        {
+            "type": "java",
+            "name": "test",
+            "request": "launch",
+            "mainClass": "cs206backend.demo.test",
+            "projectName": "demo"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-DemoApplication<demo>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "cs206backend.demo.DemoApplication",
+            "projectName": "demo",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

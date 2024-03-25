@@ -1,9 +1,14 @@
 package cs206backend.demo.models;
-import javax.persistence.*;
+
+import jakarta.persistence.*;
+import jakarta.persistence.Id;
+
 import java.util.*;
 import lombok.*;
 
 @Entity
+@Table(name = "answer")
+@Data
 public class Answer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,10 +19,6 @@ public class Answer {
     @ManyToOne
     @JoinColumn(name = "question_id")
     private Question question;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 
     // Constructors, getters, and setters
 }

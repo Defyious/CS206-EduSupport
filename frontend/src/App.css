@@ -1,4 +1,26 @@
-.App {
+body {
+  margin: 0;
+  padding: 0;
+  background-image: url('https://wallpapercave.com/wp/wp4498745.jpg'); /* Replace with your image path */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; /* Optional: keeps the background fixed during scroll */
+}
+
+#root, .App {
+  height: 100%;
+  background-image: url('https://wallpapercave.com/wp/wp4498745.jpg'); /* Replace with your image path */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; /* To prevent the image from scrolling with the content */
+}
+
+.form-container {
+  background: rgba(255, 255, 255, 0.9); /* White background with opacity */
+  /* rest of your styles for .form-container */
+}
+
+/* .App {
   text-align: center;
 }
 
@@ -35,4 +57,4 @@
   to {
     transform: rotate(360deg);
   }
-}
+} */
