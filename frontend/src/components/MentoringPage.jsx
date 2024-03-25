@@ -1,20 +1,19 @@
 // MentoringPage.jsx
 import React, { useState } from 'react';
+import { Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import MyNavbar from './Navbar';
 import "./CSS/FormStyles.css";
 import { getUserDetails } from './utils'; 
 
 const MentoringPage = () => {
-    const educationLevels = [
-        'Primary 1', 'Primary 2', 'Primary 3', 'Primary 4', 'Primary 5', 'Primary 6',
-        'Secondary 1', 'Secondary 2', 'Secondary 3', 'Secondary 4', 'Secondary 5',
-        'JC 1', 'JC 2'
-      ];
+  const educationLevels = [
+    'Primary 1', 'Primary 2', 'Primary 3', 'Primary 4', 'Primary 5', 'Primary 6',
+    'Secondary 1', 'Secondary 2', 'Secondary 3', 'Secondary 4', 'Secondary 5',
+    'JC 1', 'JC 2'
+  ];
 
-      const subjects = [
-        'Mathematics', 'Science', 'English', 'History', 'Geography', 'Art', 'Music', 'Physical Education'
-      ];
+  const subjects = ['Math', 'Chemistry', 'Physics', 'Biology', 'English', 'Chinese'];
 
   const [question, setQuestion] = useState({
     title: '',
@@ -89,7 +88,6 @@ const handleRandomMatching = async () => {
   const formData = createFormData();
   formData.append('type', "matching");
   // Perform the API call for random matching
-  navigate('/random-matching')
   try {
     const response = await fetch('http://localhost:8080/api/post/question', { // Use your actual API endpoint
       method: 'POST',
@@ -106,6 +104,7 @@ const handleRandomMatching = async () => {
 
     // Handle the response data from random matching
     console.log(data);
+    navigate('/random-matching')
     alert('Random matching initiated!');
     // Navigate to the appropriate page after matching
   } catch (error) {
@@ -118,7 +117,6 @@ const handleSelectiveMatching = async () => {
   const formData = createFormData();
   formData.append('type', "matching");
   // Perform the API call for random matching
-  navigate('/selective-matching')
   try {
     const response = await fetch('http://localhost:8080/api/post/question', { // Use your actual API endpoint
       method: 'POST',
@@ -127,11 +125,11 @@ const handleSelectiveMatching = async () => {
 
     if (!response.ok) throw new Error('Network response was not ok.');
     const data = await response.json();
-
     // Handle the response data from random matching
     console.log(data);
     alert('Random matching initiated!');
     // Navigate to the appropriate page after matching
+    navigate('/selective-matching')
   } catch (error) {
     console.error('Error with random matching:', error);
     alert('Random matching failed.');
@@ -181,6 +179,9 @@ const handleSelectiveMatching = async () => {
               <option key={index} value={level}>{level}</option>
             ))}
           </select>
+          <Form.Group>
+            <Form.File label = "Select your document" />
+          </Form.Group>
         <input
           type="file"
           name="image"

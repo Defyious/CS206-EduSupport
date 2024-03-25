@@ -13,22 +13,17 @@ const RandomMatching = () => {
 
   useEffect(() => {
     const requestMentor = async () => {
-      // If you need to get the mentee ID from userDetails
-
+      const queryParams = new URLSearchParams({ menteeId, questionId }).toString();
+      const url = `http://localhost:8080/api/matching/mentee/randomMentor?${queryParams}`;
       try {
-        const response = await fetch(`http://localhost:8080/api/matching/mentee/randomMentor`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ menteeId, questionId }),
+        const response = await fetch(url, {
+          method: 'POST'
         });
 
-        if (!response.ok) throw new Error('Request for mentor failed.');
+        if (!response.ok) throw new Error(`Request for mentor failed: ${response.statusText}`);
 
-        const result = await response.json();
+        const result = await response.text(); // Use .text() if the response is plain text and not JSON
         if (result === 'Question accepted by a mentor.') {
-          localStorage.setItem('questionId', questionId); // Store questionId in localStorage to use later
           navigate('/call'); // Navigate to call page if mentor is found
         } else {
           setMatchStatus(result);
@@ -39,9 +34,8 @@ const RandomMatching = () => {
       }
     };
 
-    // Call requestMentor function when the component loads
     requestMentor();
-  }, [navigate, questionId, menteeId]);
+  }, [menteeId, questionId, navigate]);
 
   return (
     <>

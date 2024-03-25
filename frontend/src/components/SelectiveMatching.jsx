@@ -7,13 +7,14 @@ const SelectiveMatching = () => {
   const [mentors, setMentors] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [selectedMentor, setSelectedMentor] = useState(null);
-  const userDetails = getUserDetails();
+  const menteeId = getUserDetails().userID.id;
   
   useEffect(() => {
     const fetchAvailableMentors = async () => {
+      console.log("spammed1");
       try {
-        console.log(userDetails.userID);
-        const response = await fetch(`http://localhost:8080/api/matching/mentee/getMentors/${userDetails.userID.id}`);
+        console.log(menteeId);
+        const response = await fetch(`http://localhost:8080/api/matching/mentee/getMentors/${menteeId}`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -25,7 +26,7 @@ const SelectiveMatching = () => {
     };
 
     fetchAvailableMentors();
-  }, [userDetails.userID]);
+  }, [menteeId]);
 
   const handleChooseMentor = (mentor) => {
     setSelectedMentor(mentor);
@@ -34,7 +35,7 @@ const SelectiveMatching = () => {
 
   const confirmChooseMentor = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/api/matching/mentee/${userDetails.userID.id}/select/${selectedMentor.id}?questionId=${selectedMentor.questionId}`, {
+      const response = await fetch(`http://localhost:8080/api/matching/mentee/${menteeId}/select/${selectedMentor.id}?questionId=${selectedMentor.questionId}`, {
         method: 'POST'
       });
       const result = await response.text();

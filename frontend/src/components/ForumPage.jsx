@@ -5,15 +5,13 @@ import { Tab, Tabs } from 'react-bootstrap';
 import './CSS/ForumPage.css'; // Create this CSS file for styling
 import { getUserDetails } from './utils'; 
 
-const educationLevels = [
+  const educationLevels = [
     'Primary 1', 'Primary 2', 'Primary 3', 'Primary 4', 'Primary 5', 'Primary 6',
     'Secondary 1', 'Secondary 2', 'Secondary 3', 'Secondary 4', 'Secondary 5',
     'JC 1', 'JC 2'
   ];
   
-  const subjects = [
-    'Mathematics', 'Science', 'English', 'History', 'Geography', 'Art', 'Music', 'Physical Education'
-  ];
+  const subjects = ['Math', 'Chemistry', 'Physics', 'Biology', 'English', 'Chinese'];
 
 const ForumPage = () => {
   const [allPosts, setAllPosts] = useState([]);
