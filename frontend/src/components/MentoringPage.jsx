@@ -54,6 +54,7 @@ const MentoringPage = () => {
 
   const uploadQuestionToForum = async () => {
     const formData = createFormData();
+    formData.append('type', "forum");
     try {
       // Make the POST request
       const response = await fetch('http://localhost:8080/api/post/question', {
@@ -63,7 +64,11 @@ const MentoringPage = () => {
   
       if (!response.ok) throw new Error('Network response was not ok.');
       const data = await response.json();
-  
+      // Store the questionId in local storage
+      localStorage.setItem('questionId', data.id);
+
+      // Rest of your code
+      console.log('Question uploaded:', data);
       // Handle the response as per your requirement
       console.log(data);
       alert('Question uploaded successfully!');
@@ -76,10 +81,40 @@ const MentoringPage = () => {
 
 const handleRandomMatching = async () => {
   const formData = createFormData();
+  formData.append('type', "matching");
   // Perform the API call for random matching
   navigate('/random-matching')
   try {
-    const response = await fetch('http://localhost:8080/api/random-matching', { // Use your actual API endpoint
+    const response = await fetch('http://localhost:8080/api/post/question', { // Use your actual API endpoint
+      method: 'POST',
+      body: formData,
+    });
+
+    if (!response.ok) throw new Error('Network response was not ok.');
+    const data = await response.json();
+    // Store the questionId in local storage
+    localStorage.setItem('questionId', data.id);
+
+    // Rest of your code
+    console.log('Question uploaded:', data);
+
+    // Handle the response data from random matching
+    console.log(data);
+    alert('Random matching initiated!');
+    // Navigate to the appropriate page after matching
+  } catch (error) {
+    console.error('Error with random matching:', error);
+    alert('Random matching failed.');
+  }
+};
+
+const handleSelectiveMatching = async () => {
+  const formData = createFormData();
+  formData.append('type', "matching");
+  // Perform the API call for random matching
+  navigate('/selective-matching')
+  try {
+    const response = await fetch('http://localhost:8080/api/post/question', { // Use your actual API endpoint
       method: 'POST',
       body: formData,
     });
@@ -151,7 +186,7 @@ const handleRandomMatching = async () => {
           />
         <div className="button-group">
         <button type="button" className="form-button" onClick={uploadQuestionToForum}>Upload Qn to Forum</button>
-            <button type="button" className="form-button" onClick={() => navigate('/selective-matching')}>Selective Matching</button>
+            <button type="button" className="form-button" onClick={handleSelectiveMatching}>Selective Matching</button>
             <button type="button" className="form-button" onClick={handleRandomMatching}>Random Matching</button>
           </div>
         </form>

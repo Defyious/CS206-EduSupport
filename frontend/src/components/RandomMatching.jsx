@@ -3,34 +3,45 @@ import MyNavbar from './Navbar';
 import Spinner from 'react-bootstrap/Spinner';
 import { useNavigate } from 'react-router-dom';
 import './CSS/RandomMatchingPage.css';
+import { getUserDetails, getQuestionId } from './utils';
 
 const RandomMatching = () => {
   const [matchStatus, setMatchStatus] = useState('Searching for a mentor...');
   const navigate = useNavigate();
-  const qnId = 123; // The question ID for which you are seeking a mentor, replace with actual ID
+  const menteeId = getUserDetails().userID;
+  const questionId = getQuestionId(); // The question ID for which you are seeking a mentor, replace with actual ID
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      // Call the API every 5 seconds to check for a mentor
-      fetch(`http://localhost:8080/api/matching/mentee/${qnId}`)
-        .then((response) => response.json())
-        .then((data) => {
-          if (data === 'Found Mentor') {
-            clearInterval(intervalId); // Stop the interval if a mentor is found
-            navigate('/call'); // Redirect to the /call page
-          } else {
-            setMatchStatus('Awaiting Mentor Response...'); // Update status message
-          }
-        })
-        .catch((error) => {
-          console.error('Error during fetch:', error);
-          setMatchStatus('An error occurred while searching for a mentor.');
-        });
-    }, 5000);
+    const requestMentor = async () => {
+      // If you need to get the mentee ID from userDetails
 
-    // Clean up the interval on component unmount
-    return () => clearInterval(intervalId);
-  }, [navigate, qnId]);
+      try {
+        const response = await fetch(`http://localhost:8080/api/matching/mentee/randomMentor`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ menteeId, questionId }),
+        });
+
+        if (!response.ok) throw new Error('Request for mentor failed.');
+
+        const result = await response.json();
+        if (result === 'Question accepted by a mentor.') {
+          localStorage.setItem('questionId', questionId); // Store questionId in localStorage to use later
+          navigate('/call'); // Navigate to call page if mentor is found
+        } else {
+          setMatchStatus(result);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        setMatchStatus('An error occurred while searching for a mentor.');
+      }
+    };
+
+    // Call requestMentor function when the component loads
+    requestMentor();
+  }, [navigate, questionId, menteeId]);
 
   return (
     <>
