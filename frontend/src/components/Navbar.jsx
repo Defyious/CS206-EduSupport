@@ -2,9 +2,11 @@
 import React from 'react';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { getUserDetails } from './utils'; 
 
 const MyNavbar = () => {
   const navigate = useNavigate();
+  const userDetails = getUserDetails();
 
   const handleLogout = () => {
     localStorage.clear();
@@ -20,6 +22,10 @@ const MyNavbar = () => {
           <Nav.Link href="/home">Home</Nav.Link>
           <Nav.Link href="/mentoring">Mentoring</Nav.Link>
           <Nav.Link href="/forum">Forum</Nav.Link>
+          {/* Conditionally render the "Find Mentee" link if the user is a mentor */}
+          {userDetails.role === 'mentor' && (
+            <Nav.Link href="/mentor-match">Find Mentee</Nav.Link>
+          )}
           {/* Other Nav Links if any */}
         </Nav>
         <Nav>
