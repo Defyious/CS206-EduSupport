@@ -127,7 +127,7 @@ const handleSelectiveMatching = async () => {
     const data = await response.json();
     // Handle the response data from random matching
     console.log(data);
-    alert('Random matching initiated!');
+    alert('Selective matching initiated!');
     // Navigate to the appropriate page after matching
     navigate('/selective-matching')
   } catch (error) {
