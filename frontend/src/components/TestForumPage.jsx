@@ -8,7 +8,7 @@ const TestForumPage = () => {
   return (
     <div>
       <MyNavbar />  {/* Include the navbar at the top */}
-      <h1>Welcome to the Home Page</h1>
+      <h1>Welcome to the Test Forum Page</h1>
       {/* Additional home page content goes here */}
       <>
   {/*

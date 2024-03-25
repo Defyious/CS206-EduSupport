@@ -13,6 +13,7 @@ import ProfilePage from './components/Profile';
 import './App.css'; // Make sure to import the stylesheet
 import 'bootstrap/dist/css/bootstrap.min.css';
 import TestForumPage from './components/TestForumPage';
+import TestForumPostPage from './components/TestForumPostPage';
 
 function App() {
   return (
@@ -30,7 +31,8 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/" element={<LoginPage />} />
         {/* Test by Juyoung */}
-        <Route path="/test" element={<TestForumPage />} />
+        <Route path="/testforum" element={<TestForumPage />} />
+        <Route path="/testpost" element={<TestForumPostPage />} />
       </Routes>
     </Router>
     </div>
