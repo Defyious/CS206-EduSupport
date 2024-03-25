@@ -20,6 +20,7 @@ import cs206backend.demo.payload.response.PingResponse;
 import cs206backend.demo.repository.MentorRepository;
 import cs206backend.demo.service.QuestionService;
 import cs206backend.demo.service.UserService;
+import jakarta.persistence.EntityNotFoundException;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,8 +43,10 @@ public class MatchingController {
 
     // Selection of mentee
     @GetMapping("/mentee/getMentors/{userId}")
-    public ResponseEntity<?> getAvailableMentors(@PathVariable long userId) {
-        List<Mentor> mentors = userService.getAvailableMentors(userId);
+    public ResponseEntity<?> getAvailableMentors(@PathVariable long userId, @RequestParam("questionId") long questionId) {
+        Question question = questionService.getQuestion(questionId);
+        String subject = question.getSubject();
+        List<Mentor> mentors = userService.getAvailableMentors(userId, subject);
         return ResponseEntity.ok().body(mentors);
     }
 
@@ -99,7 +102,10 @@ public class MatchingController {
     @PostMapping("mentee/randomMentor")
     public ResponseEntity<?> requestMentor(@RequestParam long menteeId, @RequestParam long questionId) {
 
-        List<Mentor> availableMentors = userService.getAvailableMentors(menteeId);
+        Question question = questionService.getQuestion(questionId);
+        String subject = question.getSubject();
+
+        List<Mentor> availableMentors = userService.getAvailableMentors(menteeId, subject);
 
         for (Mentor mentor : availableMentors) {
             userService.mentorPing(menteeId, mentor.getId(), questionId);
