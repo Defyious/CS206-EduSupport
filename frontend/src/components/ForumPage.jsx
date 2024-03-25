@@ -1,5 +1,5 @@
 // ForumPage.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import MyNavbar from './Navbar';
 import { Tab, Tabs } from 'react-bootstrap';
 import './CSS/ForumPage.css'; // Create this CSS file for styling
@@ -14,87 +14,62 @@ const educationLevels = [
   const subjects = [
     'Mathematics', 'Science', 'English', 'History', 'Geography', 'Art', 'Music', 'Physical Education'
   ];
-  const hardcodedAllPosts = [
-    {
-      questionId: 1,
-      title: 'Pythagorean Theorem',
-      content: 'How can I apply the Pythagorean Theorem to solve real-world problems?',
-      eduLevel: 'Secondary 3',
-      subject: 'Mathematics',
-      menteeID: 2
-    },
-    // ... more posts
-  ];
-  
-  const hardcodedMyPosts = [
-    {
-      questionId: 2,
-      title: 'Photosynthesis Process',
-      content: 'Can someone explain the steps of photosynthesis in simple terms?',
-      eduLevel: 'Primary 5',
-      subject: 'Science',
-      menteeID: 1
-    },
-    // ... more posts
-  ];
 
 const ForumPage = () => {
-  const [allPosts, setAllPosts] = useState(hardcodedAllPosts);
-  const [myPosts, setMyPosts] = useState(hardcodedMyPosts);
+  const [allPosts, setAllPosts] = useState([]);
+  const [myPosts, setMyPosts] = useState([]);
   const [filterEducationLevel, setFilterEducationLevel] = useState('');
   const [filterSubject, setFilterSubject] = useState('');
   const [key, setKey] = useState('allPosts');
   const [imageUrls, setImageUrls] = useState({}); // This will store the image URLs indexed by questionId
   const userDetails = getUserDetails();
+  const [hasFetchedAllPosts, setHasFetchedAllPosts] = useState(false);
+  const [hasFetchedMyPosts, setHasFetchedMyPosts] = useState(false);
+
+  const fetchPosts = useCallback(async (isAllPosts) => {
+    const url = isAllPosts ? 'http://localhost:8080/api/post/questions' : `http://localhost:8080/api/post/questions/${userDetails.userID.id}`;
+    try {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error('Network response was not ok');
+      const posts = await response.json();
+      isAllPosts ? setAllPosts(posts) : setMyPosts(posts);
+      isAllPosts ? setHasFetchedAllPosts(true) : setHasFetchedMyPosts(true);
+    } catch (error) {
+      console.error('Error during fetch:', error);
+    }
+  }, [userDetails.userID.id]);
 
   useEffect(() => {
-    // Fetch all posts from backend and append them to hardcoded posts
-    const fetchAllPosts = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/api/post/questions');
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const posts = await response.json();
-        setAllPosts(currentPosts => [...currentPosts, ...posts]);
-      } catch (error) {
-        console.error('Error during fetch:', error);
+    if (key === 'allPosts' && !hasFetchedAllPosts) {
+      fetchPosts(true);
+    } else if (key === 'myPosts' && !hasFetchedMyPosts) {
+      fetchPosts(false);
+    }
+  }, [key, fetchPosts, hasFetchedAllPosts, hasFetchedMyPosts]);
+
+  const fetchImagesForVisiblePosts = useCallback(() => {
+    const currentPosts = key === 'allPosts' ? allPosts : myPosts;
+    currentPosts.forEach((post) => {
+      if (!imageUrls[post.questionId]) {
+        fetch(`http://localhost:8080/api/post/image/${post.questionId}`)
+          .then((response) => response.blob())
+          .then((blob) => {
+            const imageUrl = URL.createObjectURL(blob);
+            setImageUrls(prev => ({ ...prev, [post.questionId]: imageUrl }));
+          })
+          .catch((error) => console.error('Error fetching image:', error));
       }
-    };
-
-    // Fetch posts specific to the logged-in user and append them to hardcoded myPosts
-    const fetchMyPosts = async () => {
-      try {
-        const response = await fetch(`http://localhost:8080/api/post/questions/${userDetails.userID}`);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const posts = await response.json();
-        setMyPosts(currentPosts => [...currentPosts, ...posts]);
-      } catch (error) {
-        console.error('Error during fetch:', error);
-      }
-    };
-
-    fetchAllPosts();
-    fetchMyPosts();
-  }, [userDetails.userID]); // Assuming userDetails provides userID
-
-   // Fetch images after posts are fetched
-   useEffect(() => {
-    allPosts.concat(myPosts).forEach((post) => {
-      fetch(`http://localhost:8080/api/post/image/${post.questionId}`)
-        .then((response) => response.blob())
-        .then((blob) => {
-          const imageUrl = URL.createObjectURL(blob);
-          setImageUrls((prevImageUrls) => ({
-            ...prevImageUrls,
-            [post.questionId]: imageUrl
-          }));
-        })
-        .catch((error) => console.error('Error fetching image:', error));
     });
-  }, [allPosts, myPosts]); // This effect runs when `allPosts` or `myPosts` change
+  }, [allPosts, myPosts, imageUrls, key]);
+
+  useEffect(() => {
+    fetchImagesForVisiblePosts();
+  }, [fetchImagesForVisiblePosts]);
+
+  // const applyFilters = (posts) => posts.filter(post => {
+  //   return (filterEducationLevel ? post.eduLevel === filterEducationLevel : true) &&
+  //          (filterSubject ? post.subject === filterSubject : true);
+  // });
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
@@ -117,6 +92,7 @@ const ForumPage = () => {
 
 // Function to render a post card
 const renderPostCard = (post) => {
+  console.log(post);
   // Construct the image URL or use a placeholder if not yet loaded
   const imageUrl = imageUrls[post.questionId] || 'https://dbkpop.com/wp-content/uploads/2023/03/twice_ready_to_be_concept_momo_2.jpg';
 

@@ -13,7 +13,7 @@ const SelectiveMatching = () => {
     const fetchAvailableMentors = async () => {
       try {
         console.log(userDetails.userID);
-        const response = await fetch(`http://localhost:8080/api/matching/mentee/getMentors/${userDetails.userID}`);
+        const response = await fetch(`http://localhost:8080/api/matching/mentee/getMentors/${userDetails.userID.id}`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -34,7 +34,7 @@ const SelectiveMatching = () => {
 
   const confirmChooseMentor = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/api/matching/mentee/${userDetails.userID}/select/${selectedMentor.id}?questionId=${selectedMentor.questionId}`, {
+      const response = await fetch(`http://localhost:8080/api/matching/mentee/${userDetails.userID.id}/select/${selectedMentor.id}?questionId=${selectedMentor.questionId}`, {
         method: 'POST'
       });
       const result = await response.text();

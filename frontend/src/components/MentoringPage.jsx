@@ -12,6 +12,10 @@ const MentoringPage = () => {
         'JC 1', 'JC 2'
       ];
 
+      const subjects = [
+        'Mathematics', 'Science', 'English', 'History', 'Geography', 'Art', 'Music', 'Physical Education'
+      ];
+
   const [question, setQuestion] = useState({
     title: '',
     subject: '',
@@ -36,12 +40,14 @@ const MentoringPage = () => {
         setQuestion(prevState => ({ ...prevState, imagePreview: reader.result }));
       };
       reader.readAsDataURL(file);
+    } else {
+      setQuestion(prevState => ({ ...prevState, imagePreview: null }));
     }
   };
 
   const createFormData = () => {
     const formData = new FormData();
-    formData.append('menteeID', getUserDetails().userID);
+    formData.append('menteeID', getUserDetails().userID.id);
     formData.append('title', question.title);
     formData.append('educationLevel', question.educationLevel);
     formData.append('subject', question.subject);
@@ -132,10 +138,14 @@ const handleSelectiveMatching = async () => {
   }
 };
 
-  const handleSubmit = (e) => {
+  // Function to handle form submission
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Implement the upload logic
-    console.log(question);
+    if (!question.image) {
+      alert('Please select an image to upload.');
+      return;
+    }
+    await uploadQuestionToForum();
   };
 
   return (
@@ -151,13 +161,16 @@ const handleSelectiveMatching = async () => {
           value={question.title}
           onChange={handleInputChange}
         />
-        <input
-          type="text"
-          name="subject"
-          placeholder="Subject"
-          value={question.subject}
-          onChange={handleInputChange}
-        />
+        <select
+            name="subject"
+            value={question.subject}
+            onChange={handleInputChange}
+          >
+            <option value="">Select Subject</option>
+            {subjects.map((subject, index) => (
+              <option key={index} value={subject}>{subject}</option>
+            ))}
+          </select>
         <select
             name="educationLevel"
             value={question.educationLevel}

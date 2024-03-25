@@ -8,7 +8,7 @@ import { getUserDetails, getQuestionId } from './utils';
 const RandomMatching = () => {
   const [matchStatus, setMatchStatus] = useState('Searching for a mentor...');
   const navigate = useNavigate();
-  const menteeId = getUserDetails().userID;
+  const menteeId = getUserDetails().userID.id;
   const questionId = getQuestionId(); // The question ID for which you are seeking a mentor, replace with actual ID
 
   useEffect(() => {
