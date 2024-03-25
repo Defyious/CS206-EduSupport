@@ -179,9 +179,7 @@ const handleSelectiveMatching = async () => {
               <option key={index} value={level}>{level}</option>
             ))}
           </select>
-          <Form.Group>
-            <Form.File label = "Select your document" />
-          </Form.Group>
+
         <input
           type="file"
           name="image"
