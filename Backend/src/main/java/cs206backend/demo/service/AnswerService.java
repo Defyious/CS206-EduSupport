@@ -47,3 +47,4 @@ public class AnswerService {
         Answer answer = answerRepository.findById(id).get();
         return imageUtils.decompressImage(answer.getImage());
     }
+}
