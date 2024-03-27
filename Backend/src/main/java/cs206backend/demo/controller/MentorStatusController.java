@@ -25,7 +25,7 @@ public class MentorStatusController {
     private UserStatusService UserStatusService;
 
     @PostMapping("/update/{mentorId}")
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"})
     public ResponseEntity<?> updateStatus(@PathVariable long mentorId) {
         UserStatusService.updateUserStatus(mentorId, true);
         return ResponseEntity.ok().build();

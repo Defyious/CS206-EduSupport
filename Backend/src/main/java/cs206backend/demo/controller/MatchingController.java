@@ -30,7 +30,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 
-@CrossOrigin
+
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"})
 @RestController
 @RequestMapping("/api/matching")
 public class MatchingController {
@@ -106,7 +107,7 @@ public class MatchingController {
         String subject = question.getSubject();
 
         List<Mentor> availableMentors = userService.getAvailableMentors(menteeId, subject);
-
+        System.out.println(availableMentors);
         for (Mentor mentor : availableMentors) {
             userService.mentorPing(menteeId, mentor.getId(), questionId);
 
