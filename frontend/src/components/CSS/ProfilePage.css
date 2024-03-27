@@ -10,6 +10,13 @@
     width: 100%;
     max-width: 350px; /* Adjust the width as needed */
   }
+
+  .profile-box h3 {
+    font-family: "Rubik", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+  }
   
   .profile-image {
     width: 150px; /* A reasonable size for the profile image */

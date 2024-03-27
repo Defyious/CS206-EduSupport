@@ -39,11 +39,19 @@
     overflow: hidden; /* Keeps image within the boundaries */
     /* Make sure to set a min-width to prevent cards from becoming too small */
   }
+
+  .post-card h3 {
+    font-family: "Rubik", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+  }
   
   .post-image {
     width: 100%;
     display: block;
     height: auto; /* Maintain aspect ratio */
+    margin-bottom: 15px;
   }
   
   /* Media queries for responsiveness */
