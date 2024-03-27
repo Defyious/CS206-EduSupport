@@ -123,9 +123,9 @@ public class PostController {
     
     
     @PostMapping("question/{questionId}/update/{isSolved}")
-    public ResponseEntity<?> isQuestionResolved(@PathVariable Long id, Boolean isSolved) {
+    public ResponseEntity<?> isQuestionResolved(@PathVariable Long questionId, @PathVariable Boolean isSolved) {
         try {
-            Question question = questionService.updateQuestion(id, isSolved);
+            Question question = questionService.updateQuestion(questionId, isSolved);
             return ResponseEntity.ok(question);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e);
