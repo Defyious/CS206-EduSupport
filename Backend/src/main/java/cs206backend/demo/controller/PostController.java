@@ -72,7 +72,7 @@ public class PostController {
             Question qn = questionService.getQuestion(questionId);
             QuestionResponse res = new QuestionResponse(qn.getId(), qn.getTitle(), qn.getContent(),
                                      EducationLevel.fromInt(qn.getEduLevel()).toString(), qn.getSubject(),
-                                     qn.getMenteeID());
+                                     qn.getMenteeID(), Boolean.toString(qn.isSolved()));
             return ResponseEntity.ok(res);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e);
@@ -86,7 +86,7 @@ public class PostController {
         List<QuestionResponse> responses = questions.stream()
                 .map(qn -> new QuestionResponse(qn.getId(), qn.getTitle(), qn.getContent(),
                         EducationLevel.fromInt(qn.getEduLevel()).toString(), qn.getSubject(),
-                        qn.getMenteeID()))
+                        qn.getMenteeID(), Boolean.toString(qn.isSolved())))
                 .collect(Collectors.toList());
         return ResponseEntity.ok(responses);
     } catch (Exception e) {
@@ -101,7 +101,7 @@ public class PostController {
             List<QuestionResponse> responses = questions.stream()
                     .map(qn -> new QuestionResponse(qn.getId(), qn.getTitle(), qn.getContent(),
                             EducationLevel.fromInt(qn.getEduLevel()).toString(), qn.getSubject(),
-                            qn.getMenteeID()))
+                            qn.getMenteeID(), Boolean.toString(qn.isSolved())))
                     .collect(Collectors.toList());
             return ResponseEntity.ok(responses);
         } catch (Exception e) {
@@ -109,10 +109,17 @@ public class PostController {
         }
     }
 
-    @GetMapping("image/{questionId}")
-    public ResponseEntity<?> getImage(@PathVariable Long questionId) {
+    @GetMapping("image/{type}/{questionId}")
+    public ResponseEntity<?> getImage(@PathVariable String type,  @PathVariable Long questionId) {
         try {
-            byte[] img = questionService.getImage(questionId);
+            byte[] img;
+            if (type.equals("question")) {
+                img = questionService.getImage(questionId);
+            } else if (type.equals("answer")) {
+                img = answerService.getImage(questionId);
+            } else {
+                return ResponseEntity.badRequest().body("Specify type.");
+            }
             return ResponseEntity.status(HttpStatus.OK)
                     .contentType(MediaType.valueOf("image/png"))
                     .body(img);
@@ -123,9 +130,9 @@ public class PostController {
     
     
     @PostMapping("question/{questionId}/update/{isSolved}")
-    public ResponseEntity<?> isQuestionResolved(@PathVariable Long id, Boolean isSolved) {
+    public ResponseEntity<?> isQuestionResolved(@PathVariable Long questionId, @PathVariable Boolean isSolved) {
         try {
-            Question question = questionService.updateQuestion(id, isSolved);
+            Question question = questionService.updateQuestion(questionId, isSolved);
             return ResponseEntity.ok(question);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e);
@@ -153,5 +160,6 @@ public class PostController {
         }
         return ResponseEntity.ok(answers);
     }
+    
     
 }

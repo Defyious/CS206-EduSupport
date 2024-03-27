@@ -42,4 +42,9 @@ public class AnswerService {
 	public List<Answer> findAnswersByQuestionId(Long questionId) {
 		return answerRepository.findByQuestionId(questionId);
 	}
+
+    public byte[] getImage(long id) {
+        Answer answer = answerRepository.findById(id).get();
+        return imageUtils.decompressImage(answer.getImage());
+    }
 }
