@@ -4,7 +4,6 @@
   justify-content: center;
   align-items: center;
   height: 100vh; /* Full height of the viewport */
-  padding-top: 80px; /* Assuming your navbar is 80px tall */
 }
 
 .loading-box {
@@ -12,7 +11,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: rgba(255, 255, 255, 0.8); /* Translucent white background */
+  background: rgba(254, 255, 197, 0.9); /* Translucent white background */
   padding: 50px;
   border-radius: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);

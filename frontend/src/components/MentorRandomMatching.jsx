@@ -27,6 +27,8 @@ const ToggleSwitch = ({ onChange, checked }) => {
   };
 
   return (
+    <div>
+    <p>Mentor Status</p>
     <label className="toggle-switch">
       <input
         type="checkbox"
@@ -36,6 +38,7 @@ const ToggleSwitch = ({ onChange, checked }) => {
       />
       <div className="slider round"></div>
     </label>
+    </div>
   );
 };
 

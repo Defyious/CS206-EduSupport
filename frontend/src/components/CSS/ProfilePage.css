@@ -1,13 +1,21 @@
 /* ProfilePage.css */
   
   .profile-box {
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 10px;
+    background: rgba(254, 255, 197, 0.9);
+    border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 40px;
+    margin: 40px auto;
     text-align: center;
     width: 100%;
     max-width: 350px; /* Adjust the width as needed */
+  }
+
+  .profile-box h3 {
+    font-family: "Rubik", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
   }
   
   .profile-image {
