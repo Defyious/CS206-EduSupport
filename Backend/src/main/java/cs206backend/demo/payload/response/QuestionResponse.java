@@ -12,4 +12,5 @@ public class QuestionResponse {
     private String eduLevel;
     private String subject;
     private long menteeID;
+    private String isSovled;
 }
