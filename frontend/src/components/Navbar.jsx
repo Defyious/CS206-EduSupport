@@ -2,6 +2,7 @@
 import React from 'react';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import './CSS/Navbar.css'; // Ensure you have a CSS file for styling
 
 const MyNavbar = () => {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ const MyNavbar = () => {
 
   return (
     <Navbar bg="light" expand="lg">
-      <Navbar.Brand href="/home">EduSupport</Navbar.Brand>
+      <Navbar.Brand href="/home" style={{ padding:'0 0 0 15px' }}>EduSupport</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="me-auto">
