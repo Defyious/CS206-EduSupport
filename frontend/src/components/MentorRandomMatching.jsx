@@ -3,6 +3,17 @@ import MyNavbar from './Navbar';
 import Spinner from 'react-bootstrap/Spinner';
 import './CSS/RandomMatchingPage.css'; // Your dedicated CSS file
 import { getUserDetails } from './utils';
+import { useNavigate } from 'react-router-dom';
+
+const QuestionContainer = ({ question }) => {
+  return (
+    <div className="question-container">
+      <h2>Question</h2>
+      <p>{question}</p>
+    </div>
+  );
+};
+
 
 const ToggleSwitch = ({ onChange, checked }) => {
   const [isChecked, setIsChecked] = useState(checked || false);
@@ -31,6 +42,9 @@ const ToggleSwitch = ({ onChange, checked }) => {
 const MentorRandomMatching = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [online, setOnline] = useState(false); // State to track mentor's online status
+  const [questionContent, setQuestionContent] = useState(null); // State to store question content
+  const navigate = useNavigate();
+
 
   const handleToggleChange = async (isChecked) => {
     try {
@@ -42,7 +56,7 @@ const MentorRandomMatching = () => {
           'Content-Type': 'application/json',
         },
       });
-
+      console.log(response);
       if (!response.ok) throw new Error('Network response was not ok.');
 
       setOnline(isChecked); // Update online status state
@@ -56,14 +70,14 @@ const MentorRandomMatching = () => {
   useEffect(() => {
     let intervalId;
     if (online) {
-      setIsLoading(true); 
+      setIsLoading(true);
       intervalId = setInterval(async () => {
         try {
           const user = getUserDetails();
           console.log(user);
           const url = `http://localhost:8080/api/matching/mentor/${user.userID.id}`;
           const response = await fetch(url);
-          if (!response.ok) throw new Error('Network response was not ok.');
+          if (!response.ok) throw new Error('first not ok');
           const data = await response.json();
           console.log(data);
 
@@ -72,6 +86,8 @@ const MentorRandomMatching = () => {
           if (!questionResponse.ok) throw new Error('Question API: Network response was not ok.');
           const questionData = await questionResponse.json();
           console.log('Question API Response:', questionData);
+          setQuestionContent(questionData); // Set question content
+
           setIsLoading(false);
 
           // Display pop-up with accept or decline buttons
@@ -92,6 +108,8 @@ const MentorRandomMatching = () => {
             // const responseData = await responses.json();
             console.log('Response API Response:', responses);
             clearInterval(intervalId); // Clear the interval on successful response
+            navigate('/call_mentor')
+            alert('joining call');
 
           } else {
             // Handle decline action
@@ -115,6 +133,7 @@ const MentorRandomMatching = () => {
         {isLoading && <Spinner animation="border" role="status">
           <span className="sr-only">Loading...</span>
         </Spinner>}
+        {questionContent && <QuestionContainer question={questionContent.title} />}
       </div>
     </>
   );

@@ -7,4 +7,8 @@ export const getUserDetails = () => {
 export const getQuestionId = () => {
   return localStorage.getItem('questionId');
 };
+
+export const getCurrentMentorID = () => {
+  return localStorage.getItem('currentMentor');
+};
   

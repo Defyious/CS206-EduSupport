@@ -12,6 +12,7 @@ import LoginPage from './components/LoginPage';
 import ProfilePage from './components/Profile';
 import MentorRandomMatching from './components/MentorRandomMatching';
 import Call from './components/Call';
+import Call_Mentor from './components/Call_Mentor';
 import './App.css'; // Make sure to import the stylesheet
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -31,6 +32,7 @@ function App() {
         <Route path="/register" element={<Selection />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/call" element={<Call />} />
+        <Route path="/call_mentor" element={<Call_Mentor />} />
         <Route path="/" element={<LoginPage />} />
       </Routes>
     </Router>

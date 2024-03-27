@@ -16,7 +16,7 @@ function randomID(len) {
   return result;
 }
 
-export default function Call() {
+export default function Call_Mentor() {
   const navigate = useNavigate();
   const roomID = "EduSupport";
   const [showRatingPopup, setShowRatingPopup] = useState(false); // State to control the visibility of the rating popup
