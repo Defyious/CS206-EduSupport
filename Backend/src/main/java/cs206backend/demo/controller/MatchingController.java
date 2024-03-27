@@ -137,7 +137,7 @@ public class MatchingController {
                 boolean questionAccepted = questionStatusFuture.get(1, TimeUnit.MINUTES);
                 System.out.println("Check 3");
                 if (questionAccepted) {
-                    return ResponseEntity.ok("Question accepted by a mentor.");
+                    return ResponseEntity.ok(String.format("Matching complete, mentor id is %d", mentor.getId()));
                 } else {
                     userService.responseHandler(mentor.getId());
                 }

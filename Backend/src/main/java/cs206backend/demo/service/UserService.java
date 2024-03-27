@@ -106,12 +106,12 @@ public class UserService {
         int menteeEducationLevel = mentee.getEducationLevel();
 
         // Find mentors with a higher education level who are online
-        // List<Mentor> allMentors = mentorRepository.findByEducationLevelGreaterThanAndIsOnlineTrue(menteeEducationLevel);
-        // List<Mentor> subjectMentors = allMentors.stream()
-        // .filter(mentor -> mentor.getSubjects().stream()
-        //     .anyMatch(subjectEntity -> subjectEntity.getName().equalsIgnoreCase(subject)))
-        // .collect(Collectors.toList());
-        List<Mentor> subjectMentors = mentorRepository.findByIsOnline(true);
+        List<Mentor> allMentors = mentorRepository.findByEducationLevelGreaterThanAndIsOnlineTrue(menteeEducationLevel);
+        List<Mentor> subjectMentors = allMentors.stream()
+        .filter(mentor -> mentor.getSubjects().stream()
+            .anyMatch(subjectEntity -> subjectEntity.getName().equalsIgnoreCase(subject)))
+        .collect(Collectors.toList());
+        // List<Mentor> subjectMentors = mentorRepository.findByIsOnline(true);
         return subjectMentors;
     }
 
