@@ -51,7 +51,7 @@ const ForumPage = () => {
     const currentPosts = key === 'allPosts' ? allPosts : myPosts;
     currentPosts.forEach((post) => {
       if (!imageUrls[post.questionId]) {
-        fetch(`http://localhost:8080/api/post/image/${post.questionId}`)
+        fetch(`http://localhost:8080/api/post/image/question/${post.questionId}`)
           .then((response) => response.blob())
           .then((blob) => {
             const imageUrl = URL.createObjectURL(blob);

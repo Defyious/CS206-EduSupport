@@ -17,11 +17,22 @@ const QuestionDetailsPage = () => {
   useEffect(() => {
     // Fetch the question details
     fetch(`http://localhost:8080/api/post/question/${questionId}`)
-      .then((response) => response.json())
-      .then((data) => setQuestionDetails(data))
-      .catch((error) => console.error('Error fetching question details:', error));
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('isSolved type:', typeof data.isSovled); // Check the type of isSolved
+    console.log('isSolved value:', data.isSovled); // Check the value of isSolved
+
+    // Check the boolean value of isSolved (assuming it is returned as a string 'true' or 'false')
+    const isSovled = data.isSovled === 'true';
+    console.log('isSolved after comparison:', isSovled); // This should log true if data.isSolved is the string 'true'
+      setQuestionDetails({
+        ...data,
+        isResolved: isSovled, // Ensure you have an isResolved property in your state
+      });
+    })
+    .catch((error) => console.error('Error fetching question details:', error));
     // Fetch the question image
-    fetch(`http://localhost:8080/api/post/image/${questionId}`)
+    fetch(`http://localhost:8080/api/post/image/question/${questionId}`)
       .then((response) => response.blob())
       .then((imageBlob) => {
         const imageUrl = URL.createObjectURL(imageBlob);
@@ -29,21 +40,33 @@ const QuestionDetailsPage = () => {
       })
       .catch((error) => console.error('Error fetching image:', error));
 
-    // Fetch the answers for the question
+    // Fetch the images for answers
     fetch(`http://localhost:8080/api/post/question/${questionId}/answers`)
-      .then((response) => response.json())
-      .then((data) => {
-        const answersWithImageData = data.map(answer => {
-          if (answer.image) {
-            const imageBlob = new Blob([Uint8Array.from(answer.image)], { type: 'image/png' });
-            const imageUrl = URL.createObjectURL(imageBlob);
-            return { ...answer, imageUrl };
-          }
-          return answer;
-        });
-        setAnswers(answersWithImageData);
+      .then((response) => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.json();
       })
-      .catch((error) => console.error('Error fetching answers:', error));
+      .then((answersData) => {
+        // Create promises to fetch images for each answer that has an image
+        const imagePromises = answersData.map((answer) => {
+          if (answer.image) {
+            return fetch(`http://localhost:8080/api/post/image/answer/${answer.id}`)
+              .then((imageResponse) => imageResponse.blob())
+              .then((imageBlob) => {
+                const imageUrl = URL.createObjectURL(imageBlob);
+                return { ...answer, imageUrl }; // Add the imageUrl to the answer object
+              });
+          }
+          return Promise.resolve(answer); // For answers without an image, resolve immediately
+        });
+
+        return Promise.all(imagePromises);
+      })
+      .then((answersWithImages) => {
+        setAnswers(answersWithImages); // Set the answers state with the new data including images
+      })
+      .catch((error) => console.error('Error:', error));
+
   }, [questionId]);
 
   const handleNewAnswerChange = (e) => {
@@ -84,23 +107,23 @@ const QuestionDetailsPage = () => {
     }
   };
 
-  const handleResolvedChange = async (isSolved) => {
+  const handleResolvedChange = async (e) => {
+    const isSolved = e.target.checked;
     try {
-        const response = await fetch(`http://localhost:8080/api/post/question/${questionId}/update/${isSolved}`, {
-            method: 'POST'
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to update question resolved status');
-        }
-
-        const result = await response.json();
-        console.log('Question resolved status updated:', result);
-        // ... handle successful update, maybe by refreshing question details
+      const response = await fetch(
+        `http://localhost:8080/api/post/question/${questionId}/update/${isSolved}`,
+        { method: 'POST' }
+      );
+      if (!response.ok) throw new Error('Failed to update question resolved status');
+      // Update local state to reflect the new resolved status
+      setQuestionDetails((prevDetails) => ({
+        ...prevDetails,
+        isResolved: isSolved,
+      }));
     } catch (error) {
-        console.error('Error updating question resolved status:', error);
+      console.error('Error:', error);
     }
-};
+  };
 
   return (
     <div>
@@ -108,19 +131,19 @@ const QuestionDetailsPage = () => {
       <div className="question-details-container">
         {
             questionDetails && currentUserID === questionDetails.menteeID && (
-                <div className="resolved-slider-container">
+              <div className="resolved-slider-container">
                 <label className="switch">
-                    <input
+                  <input
                     type="checkbox"
                     checked={questionDetails.isResolved}
-                    onChange={(e) => handleResolvedChange(e.target.checked)}
-                    />
-                    <span className="slider round"></span>
+                    onChange={handleResolvedChange}
+                  />
+                  <span className="slider round"></span>
                 </label>
                 <span>{questionDetails.isResolved ? 'Resolved' : 'Unresolved'}</span>
-                </div>
+              </div>
             )
-            }
+          }
         <div className="question-container">
             {questionDetails && (
             <div>
@@ -145,9 +168,7 @@ const QuestionDetailsPage = () => {
           {answers.map((answer) => (
             <div key={answer.id} className="answer-card">
               <p>{answer.content}</p>
-              {/* Display answer images if available. Assuming answer.imageURL holds the image URL */}
-              {answer.imageURL && <img src={answer.imageUrl} alt="Answer" className="answer-img" />
-}
+              {answer.imageUrl && <img src={answer.imageUrl} alt="Answer" className="answer-image" />}
             </div>
           ))}
         </div>
