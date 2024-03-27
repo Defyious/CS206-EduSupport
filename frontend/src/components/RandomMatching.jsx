@@ -43,7 +43,7 @@ const RandomMatching = () => {
       <div className="random-matching-page">
         <div className="loading-box">
           <Spinner animation="border" size="xl" className="loading-spinner" />
-          <p className="motivational-quote">"Age is just a number <br />Jail is just a room <br />Don't let your dreams be dreams <br />JUST DO IT!"<br /> - Jevon Tan Jing Hong</p>
+          <p className="motivational-quote">"you have to be hard in order to be complete "<br /> - Prof Lau Hoong Chuin</p>
           <p>{matchStatus}</p>
         </div>
       </div>
