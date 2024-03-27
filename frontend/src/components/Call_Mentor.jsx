@@ -89,20 +89,6 @@ export default function Call_Mentor() {
     <>
       <MyNavbar />
       <div className="myCallContainer" ref={myMeeting} style={{ width: '100vw', height: '100vh' }}></div>
-      {showRatingPopup && (
-        <div className="ratingPopup">
-          <h2>Rate the call</h2>
-          <label>
-            Rating:
-            <input type="number" min="1" max="5" value={rating} onChange={(e) => setRating(parseInt(e.target.value))} />
-          </label>
-          <label>
-            Comment:
-            <textarea value={comment} onChange={(e) => setComment(e.target.value)} />
-          </label>
-          <button onClick={handleSubmit}>Submit</button>
-        </div>
-      )}
     </>
   );
 }
