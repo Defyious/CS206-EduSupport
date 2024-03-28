@@ -43,8 +43,8 @@ public class MatchingController {
     private QuestionService questionService;
 
     // Selection of mentee
-    @GetMapping("/mentee/getMentors/{userId}")
-    public ResponseEntity<?> getAvailableMentors(@PathVariable long userId, @RequestParam("questionId") long questionId) {
+    @GetMapping("/mentee/{userId}/getMentors/{questionId}")
+    public ResponseEntity<?> getAvailableMentors(@PathVariable long userId, @PathVariable("questionId") long questionId) {
         Question question = questionService.getQuestion(questionId);
         String subject = question.getSubject();
         List<Mentor> mentors = userService.getAvailableMentors(userId, subject);
