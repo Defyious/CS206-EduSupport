@@ -152,7 +152,7 @@ const SelectiveMatching = () => {
           <Button variant="secondary" onClick={() => setShowConfirmation(false)}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={confirmChooseMentor}>
+          <Button variant="primary" onClick={()=>confirmChooseMentor()}>
             Confirm
           </Button>
         </Modal.Footer>
