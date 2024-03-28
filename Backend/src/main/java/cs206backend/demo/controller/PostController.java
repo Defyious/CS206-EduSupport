@@ -79,7 +79,7 @@ public class PostController {
         }
     }
 
-    @GetMapping("/questions/{menteeId}")
+    @GetMapping("/questions/mentee/{menteeId}")
     public ResponseEntity<?> getQuestionsByMentee(@PathVariable Long menteeId) {
     try {
         List<Question> questions = questionService.getAllQuestionByMentee(menteeId);
