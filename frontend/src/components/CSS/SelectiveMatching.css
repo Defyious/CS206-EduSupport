@@ -1,11 +1,3 @@
-/* .page-container {
-    background: rgba(254, 255, 197, 0.9);
-    padding: 20px;
-    border-radius: 20px;
-    margin: 70px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  } */
-
 .page-container h1 {
     font-family: "Rubik", sans-serif;
     font-optical-sizing: auto;
@@ -17,4 +9,24 @@
     border-radius: 20px;
     margin: 70px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+.mentor-list {
+    background: rgba(254, 255, 197, 0.9);
+    padding: 20px;
+    border-radius: 20px;
+    margin: 70px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 40px auto;
+    text-align: center;
+    width: 100%;
+    max-width: 350px; /* Adjust the width as needed */
+  }
+
+  img {
+    width: 150px; /* A reasonable size for the profile image */
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    object-fit: cover;
   }

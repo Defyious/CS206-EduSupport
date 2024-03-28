@@ -97,6 +97,7 @@ const SelectiveMatching = () => {
 
   const mentorListItems = mentors.map((mentor) => (
     <div key={mentor.id} className="mentor-card">
+      <img src='https://sourcemusic.com/resources/artist/68ba06d4-5377-4690-b8dc-0d6ef1760da4.jpg' alt=""/>
       <p>Username: {mentor.username}</p>
       <p>Education Level: {mentor.educationLevel}</p>
       <p>Subjects: {mentor.subjects.map(subject => subject.name).join(', ')}</p>
