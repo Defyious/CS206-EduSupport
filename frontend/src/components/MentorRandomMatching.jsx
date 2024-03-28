@@ -6,10 +6,38 @@ import { getUserDetails } from './utils';
 import { useNavigate } from 'react-router-dom';
 
 const QuestionContainer = ({ question }) => {
+  const [image, setImage] = useState(null);
+
+  useEffect(() => {
+    const fetchImage = async () => {
+      try {
+        console.log(question);
+        const response = await fetch(`http://localhost:8080/api/post/image/question/${question.questionId}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch image');
+        }
+        const imageData = await response.blob();
+        setImage(URL.createObjectURL(imageData));
+      } catch (error) {
+        console.error('Error fetching image:', error);
+      }
+    };
+
+    fetchImage();
+
+    return () => {
+      // Clean up the image URL when the component unmounts
+      URL.revokeObjectURL(image);
+    };
+  }, [question.id]);
+
   return (
     <div className="question-container">
       <h2>Question</h2>
-      <p>{question}</p>
+      <p>Title: {question.title}</p>
+      <p>Content: {question.content}</p>
+      <p>Edu Level: {question.eduLevel}</p>
+      {image && <img src={image} alt="Question Image" />}
     </div>
   );
 };
@@ -136,7 +164,7 @@ const MentorRandomMatching = () => {
         {isLoading && <Spinner animation="border" role="status">
           <span className="sr-only">Loading...</span>
         </Spinner>}
-        {questionContent && <QuestionContainer question={questionContent.title} />}
+        {questionContent && <QuestionContainer question={questionContent} />}
       </div>
     </>
   );
