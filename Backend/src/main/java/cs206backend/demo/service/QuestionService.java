@@ -100,5 +100,13 @@ public class QuestionService {
         System.out.println(question.getFound());
         return question.getFound();
     }
+
+    public List<Question> getAllResolvedQuestions() {
+        return questionRepository.findAll()
+            .stream()
+            .filter(question -> question.isSolved()) // Assuming isResolved() method exists
+            .filter(question -> question.isForum())
+            .collect(Collectors.toList());
+    }
     
 }

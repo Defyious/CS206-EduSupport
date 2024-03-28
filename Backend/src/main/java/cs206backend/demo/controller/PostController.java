@@ -99,11 +99,11 @@ public class PostController {
         try {
             List<Question> questions;
             if (isUnresolved.equals("false")) {
-                questions = questionService.getAllQuestions();
+                questions = questionService.getAllResolvedQuestions();
             } else if (isUnresolved.equals("true")) {
                 questions = questionService.getAllUnresolvedQuestions();
             } else {
-                return ResponseEntity.badRequest().body("invalid pathparams");
+                questions = questionService.getAllQuestions();
             }  
             List<QuestionResponse> responses = questions.stream()
                     .map(qn -> new QuestionResponse(qn.getId(), qn.getTitle(), qn.getContent(),
