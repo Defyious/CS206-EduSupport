@@ -16,11 +16,10 @@ const MyNavbar = () => {
 
   return (
     <Navbar bg="light" expand="lg">
-      <Navbar.Brand href="/home" style={{ padding:'0 0 0 15px' }}>EduSupport</Navbar.Brand>
+      <Navbar.Brand href="/mentoring" style={{ padding:'0 0 0 15px' }}>EduSupport</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="me-auto">
-          <Nav.Link href="/home">Home</Nav.Link>
           <Nav.Link href="/mentoring">Mentoring</Nav.Link>
           <Nav.Link href="/forum">Forum</Nav.Link>
           {/* Conditionally render the "Find Mentee" link if the user is a mentor */}

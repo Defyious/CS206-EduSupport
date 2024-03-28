@@ -37,7 +37,7 @@ export default function Call() {
         setShowRatingPopup(true); // Show rating popup when leaving the room
       },
       onReturnToHomeScreenClicked: () => {
-        navigate('/home');
+        navigate('/mentoring');
       },
       container: element,
       sharedLinks: [

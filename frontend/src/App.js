@@ -27,7 +27,7 @@ function App() {
         <Route path="/mentor-form" element={<MentorForm />} />
         <Route path="/random-matching" element={<RandomMatching />} />
         <Route path="/selective-matching" element={<SelectiveMatching />} />
-        <Route path="/home" element={<Home />} />
+        {/* <Route path="/home" element={<Home />} /> */}
         <Route path="/forum" element={<ForumPage />} />
         <Route path="/mentoring" element={<MentoringPage />} />
         <Route path="/register" element={<Selection />} />
