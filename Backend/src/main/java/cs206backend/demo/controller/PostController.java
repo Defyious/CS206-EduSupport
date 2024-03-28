@@ -94,10 +94,17 @@ public class PostController {
     }
 }
 
-    @GetMapping("questions")
-    public ResponseEntity<?> getAllQuestions() {
+    @GetMapping("questions/{isUnresolved}")
+    public ResponseEntity<?> getAllQuestions(@PathVariable String isUnresolved) {
         try {
-            List<Question> questions = questionService.getAllQuestions();
+            List<Question> questions;
+            if (isUnresolved.equals("false")) {
+                questions = questionService.getAllQuestions();
+            } else if (isUnresolved.equals("true")) {
+                questions = questionService.getAllUnresolvedQuestions();
+            } else {
+                return ResponseEntity.badRequest().body("invalid pathparams");
+            }  
             List<QuestionResponse> responses = questions.stream()
                     .map(qn -> new QuestionResponse(qn.getId(), qn.getTitle(), qn.getContent(),
                             EducationLevel.fromInt(qn.getEduLevel()).toString(), qn.getSubject(),
