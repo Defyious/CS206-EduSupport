@@ -25,6 +25,9 @@ const RandomMatching = () => {
         const result = await response.text(); // Use .text() if the response is plain text and not JSON
         console.log(result);
         if (result.includes("mentor id is")) {
+          const mentorIdMatch = result.match(/mentor id is (\d+)/);
+          const mentorId = parseInt(mentorIdMatch[1]);
+          localStorage.setItem('currentMentor',mentorId);
           navigate('/call'); // Navigate to call page if mentor is found
         } else {
           setMatchStatus(result);
