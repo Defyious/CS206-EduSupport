@@ -19,12 +19,8 @@ const QuestionDetailsPage = () => {
     fetch(`http://localhost:8080/api/post/question/${questionId}`)
     .then((response) => response.json())
     .then((data) => {
-      console.log('isSolved type:', typeof data.isSovled); // Check the type of isSolved
-    console.log('isSolved value:', data.isSovled); // Check the value of isSolved
-
     // Check the boolean value of isSolved (assuming it is returned as a string 'true' or 'false')
     const isSovled = data.isSovled === 'true';
-    console.log('isSolved after comparison:', isSovled); // This should log true if data.isSolved is the string 'true'
       setQuestionDetails({
         ...data,
         isResolved: isSovled, // Ensure you have an isResolved property in your state
@@ -42,31 +38,31 @@ const QuestionDetailsPage = () => {
 
     // Fetch the images for answers
     fetch(`http://localhost:8080/api/post/question/${questionId}/answers`)
-      .then((response) => {
-        if (!response.ok) throw new Error('Network response was not ok');
-        return response.json();
-      })
-      .then((answersData) => {
-        // Create promises to fetch images for each answer that has an image
-        const imagePromises = answersData.map((answer) => {
+      .then((response) => response.json())
+      .then(async (answersData) => {
+        // Use async/await to wait for all images to be fetched before updating the state
+        const answersWithImages = await Promise.all(answersData.map(async (answer) => {
           if (answer.image) {
-            return fetch(`http://localhost:8080/api/post/image/answer/${answer.id}`)
-              .then((imageResponse) => imageResponse.blob())
-              .then((imageBlob) => {
-                const imageUrl = URL.createObjectURL(imageBlob);
-                return { ...answer, imageUrl }; // Add the imageUrl to the answer object
-              });
+            try {
+              const imageResponse = await fetch(`http://localhost:8080/api/post/image/answer/${answer.id}`);
+              if (!imageResponse.ok) {
+                throw new Error('Image fetch failed');
+              }
+              const imageBlob = await imageResponse.blob();
+              const imageUrl = URL.createObjectURL(imageBlob);
+              return { ...answer, imageUrl }; // Add the imageUrl to the answer object
+            } catch (error) {
+              console.error('Error fetching answer image:', error);
+              return answer; // Return the answer without the image URL in case of error
+            }
+          } else {
+            return answer; // Return the answer as is if there's no image
           }
-          return Promise.resolve(answer); // For answers without an image, resolve immediately
-        });
+        }));
 
-        return Promise.all(imagePromises);
+        setAnswers(answersWithImages);
       })
-      .then((answersWithImages) => {
-        setAnswers(answersWithImages); // Set the answers state with the new data including images
-      })
-      .catch((error) => console.error('Error:', error));
-
+      .catch((error) => console.error('Error fetching answers:', error));
   }, [questionId]);
 
   const handleNewAnswerChange = (e) => {
