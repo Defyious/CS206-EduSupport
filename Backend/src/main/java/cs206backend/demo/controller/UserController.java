@@ -122,10 +122,16 @@ public class UserController {
     }
     
     @GetMapping("/mentor/{mentorId}/rating")
-    public ResponseEntity<?> postMethodName(@PathVariable long mentorId) {
+    public ResponseEntity<?> getMentorRating(@PathVariable long mentorId) {
         System.out.println(mentorId);
         return ResponseEntity.ok().body(userService.getRating(mentorId));
          
+    }
+    
+    @GetMapping("/details/mentors")
+    public ResponseEntity<?> getAllMentors() {
+        List<Mentor> mentors = userService.getAllMentors();
+        return ResponseEntity.ok().body(mentors);
     }
     
 }
