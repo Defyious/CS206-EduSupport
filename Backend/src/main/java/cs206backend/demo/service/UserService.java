@@ -149,4 +149,9 @@ public class UserService {
         
         return ratingRepository.findByMentorId(mentorId);
     }
+
+    public List<Mentor> getAllMentors() {
+        List<Mentor> mentors = mentorRepository.findAll();
+        return mentors;
+    }
 }
