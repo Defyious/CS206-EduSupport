@@ -151,6 +151,16 @@ public class MatchingController {
         // If no mentors accepted the question
         return ResponseEntity.status(404).body("No mentors available to accept the question at this time.");
     }
+
+    @PostMapping("mentee/{menteeId}/save-mentor/{mentorId}")
+    public ResponseEntity<String> saveMentor(@PathVariable Long menteeId, @PathVariable Long mentorId) {
+        return userService.saveMentor(menteeId, mentorId);
+    }
+
+    @GetMapping("mentee/{menteeId}/mentors")
+    public ResponseEntity<List<Mentor>> getMentorsByMentee(@PathVariable Long menteeId) {
+        return userService.getMentorsByMentee(menteeId);
+    }
 }
     
 

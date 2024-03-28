@@ -21,6 +21,9 @@ public class Mentee {
     private int educationLevel;
 
     private boolean isPremium;
+
+    @ElementCollection
+    private List<Long> mentorIds = new ArrayList<>();
     
     @OneToMany(mappedBy = "mentee", cascade = CascadeType.ALL)
     private List<MentorMentee> mentorMentees;

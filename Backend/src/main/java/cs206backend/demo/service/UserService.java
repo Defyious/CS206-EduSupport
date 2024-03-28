@@ -3,11 +3,12 @@ package cs206backend.demo.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.el.stream.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import cs206backend.demo.models.Mentee;
@@ -153,5 +154,30 @@ public class UserService {
     public List<Mentor> getAllMentors() {
         List<Mentor> mentors = mentorRepository.findAll();
         return mentors;
+    }
+
+    public ResponseEntity<String> saveMentor(Long menteeId, Long mentorId) {
+        Optional<Mentee> menteeOptional = menteeRepository.findById(menteeId);
+        Optional<Mentor> mentorOptional = mentorRepository.findById(mentorId);
+        if (menteeOptional.isPresent() && mentorOptional.isPresent()) {
+            Mentee mentee = menteeOptional.get();
+            mentee.getMentorIds().add(mentorId);
+            menteeRepository.save(mentee);
+            return ResponseEntity.ok("Mentor saved to Mentee.");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    public ResponseEntity<List<Mentor>> getMentorsByMentee(Long menteeId) {
+        Optional<Mentee> menteeOptional = menteeRepository.findById(menteeId);
+        if (menteeOptional.isPresent()) {
+            Mentee mentee = menteeOptional.get();
+            List<Long> mentorIds = mentee.getMentorIds();
+            List<Mentor> mentors = mentorRepository.findAllById(mentorIds);
+            return ResponseEntity.ok(mentors);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
