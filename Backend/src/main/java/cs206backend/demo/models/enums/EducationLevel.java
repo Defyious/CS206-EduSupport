@@ -24,19 +24,19 @@ public enum EducationLevel {
         }
         
         switch (input) {
-            case "primary 1": return PRI_1;
-            case "primary 2": return PRI_2;
-            case "primary 3": return PRI_3;
-            case "primary 4": return PRI_4;
-            case "primary 5": return PRI_5;
-            case "primary 6": return PRI_6;
-            case "secondary 1": return SEC_1;
-            case "secondary 2": return SEC_2;
-            case "secondary 3": return SEC_3;
-            case "secondary 4": return SEC_4;
-            case "secondary 5": return SEC_5; // Added this line to match the frontend input
-            case "jc 1": return JC1;
-            case "jc 2": return JC2;
+            case "Primary 1": return PRI_1;
+            case "Primary 2": return PRI_2;
+            case "Primary 3": return PRI_3;
+            case "Primary 4": return PRI_4;
+            case "Primary 5": return PRI_5;
+            case "Primary 6": return PRI_6;
+            case "Secondary 1": return SEC_1;
+            case "Secondary 2": return SEC_2;
+            case "Secondary 3": return SEC_3;
+            case "Secondary 4": return SEC_4;
+            case "Secondary 5": return SEC_5;
+            case "JC 1": return JC1;
+            case "JC 2": return JC2;
             default: return OTHERS;
         }
     }

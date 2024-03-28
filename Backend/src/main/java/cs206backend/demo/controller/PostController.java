@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import cs206backend.demo.models.Answer;
 import cs206backend.demo.models.Question;
 import cs206backend.demo.models.enums.EducationLevel;
 import cs206backend.demo.models.enums.Subject;
@@ -34,7 +35,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000","http://localhost:3001"})
 @RestController
 @RequestMapping("/api/post")
 public class PostController {
@@ -71,7 +72,7 @@ public class PostController {
             Question qn = questionService.getQuestion(questionId);
             QuestionResponse res = new QuestionResponse(qn.getId(), qn.getTitle(), qn.getContent(),
                                      EducationLevel.fromInt(qn.getEduLevel()).toString(), qn.getSubject(),
-                                     qn.getMenteeID());
+                                     qn.getMenteeID(), Boolean.toString(qn.isSolved()));
             return ResponseEntity.ok(res);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e);
@@ -85,7 +86,7 @@ public class PostController {
         List<QuestionResponse> responses = questions.stream()
                 .map(qn -> new QuestionResponse(qn.getId(), qn.getTitle(), qn.getContent(),
                         EducationLevel.fromInt(qn.getEduLevel()).toString(), qn.getSubject(),
-                        qn.getMenteeID()))
+                        qn.getMenteeID(), Boolean.toString(qn.isSolved())))
                 .collect(Collectors.toList());
         return ResponseEntity.ok(responses);
     } catch (Exception e) {
@@ -93,14 +94,21 @@ public class PostController {
     }
 }
 
-    @GetMapping("questions")
-    public ResponseEntity<?> getAllQuestions() {
+    @GetMapping("questions/{isUnresolved}")
+    public ResponseEntity<?> getAllQuestions(@PathVariable String isUnresolved) {
         try {
-            List<Question> questions = questionService.getAllQuestions();
+            List<Question> questions;
+            if (isUnresolved.equals("false")) {
+                questions = questionService.getAllQuestions();
+            } else if (isUnresolved.equals("true")) {
+                questions = questionService.getAllUnresolvedQuestions();
+            } else {
+                return ResponseEntity.badRequest().body("invalid pathparams");
+            }  
             List<QuestionResponse> responses = questions.stream()
                     .map(qn -> new QuestionResponse(qn.getId(), qn.getTitle(), qn.getContent(),
                             EducationLevel.fromInt(qn.getEduLevel()).toString(), qn.getSubject(),
-                            qn.getMenteeID()))
+                            qn.getMenteeID(), Boolean.toString(qn.isSolved())))
                     .collect(Collectors.toList());
             return ResponseEntity.ok(responses);
         } catch (Exception e) {
@@ -108,10 +116,17 @@ public class PostController {
         }
     }
 
-    @GetMapping("image/{questionId}")
-    public ResponseEntity<?> getImage(@PathVariable Long questionId) {
+    @GetMapping("image/{type}/{questionId}")
+    public ResponseEntity<?> getImage(@PathVariable String type,  @PathVariable Long questionId) {
         try {
-            byte[] img = questionService.getImage(questionId);
+            byte[] img;
+            if (type.equals("question")) {
+                img = questionService.getImage(questionId);
+            } else if (type.equals("answer")) {
+                img = answerService.getImage(questionId);
+            } else {
+                return ResponseEntity.badRequest().body("Specify type.");
+            }
             return ResponseEntity.status(HttpStatus.OK)
                     .contentType(MediaType.valueOf("image/png"))
                     .body(img);
@@ -122,13 +137,36 @@ public class PostController {
     
     
     @PostMapping("question/{questionId}/update/{isSolved}")
-    public ResponseEntity<?> isQuestionResolved(@PathVariable Long id, Boolean isSolved) {
+    public ResponseEntity<?> isQuestionResolved(@PathVariable Long questionId, @PathVariable Boolean isSolved) {
         try {
-            Question question = questionService.updateQuestion(id, isSolved);
+            Question question = questionService.updateQuestion(questionId, isSolved);
             return ResponseEntity.ok(question);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e);
         }
     }
+
+    @PostMapping("question/{qnId}/answer") 
+    public ResponseEntity<?> createAnswer(@PathVariable Long qnId, 
+                        @RequestParam(value = "file", required = false) MultipartFile file,
+                        @RequestParam("content") String content) {
+        
+        try {
+            Answer answer = answerService.createAnswer(qnId, content, file);
+            return ResponseEntity.ok(answer);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Invalid Inputs");
+        }
+    }
+    
+    @GetMapping("question/{qnId}/answers")
+    public ResponseEntity<List<Answer>> getAnswersForQuestion(@PathVariable("qnId") Long questionId) {
+        List<Answer> answers = answerService.findAnswersByQuestionId(questionId);
+        if (answers.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(answers);
+    }
+    
     
 }

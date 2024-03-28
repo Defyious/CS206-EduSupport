@@ -26,5 +26,7 @@ public interface MentorRepository extends JpaRepository<Mentor, Long> {
     List<Mentor> findMentorsLastActiveBefore(long threshold);
 
     List<Mentor> findByEducationLevelGreaterThanAndIsOnlineTrue(int educationLevel);
+
+    List<Mentor> findByIsOnline(boolean online);
 }
 

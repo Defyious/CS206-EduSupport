@@ -64,10 +64,17 @@ public class QuestionService {
     public List<Question> getAllQuestions() {
         return questionRepository.findAll()
             .stream()
-            .filter(question -> !question.isSolved()) // Assuming isResolved() method exists
             .filter(question -> question.isForum())
             .collect(Collectors.toList());
     }
+
+    public List<Question> getAllUnresolvedQuestions() {
+        return questionRepository.findAll()
+            .stream()
+            .filter(question -> !question.isSolved()) // Assuming isResolved() method exists
+            .filter(question -> question.isForum())
+            .collect(Collectors.toList());
+    } 
 
     public Question updateQuestion(Long id, Boolean isSolved) {
        Question question = questionRepository.findById(id).get();

@@ -1,7 +1,7 @@
 package cs206backend.demo.models.enums;
 
 public enum Subject {
-    MATH, SCIENCE, ENGLISH, CHINESE, MALAY, TAMIL, HISTORY, GEOGRAPHY, CHEMISTRY, BIOLOGY, PHYSIC, SOCIAL_STUDIES, LITERATURE, COMPUTING; 
+    MATH, SCIENCE, ENGLISH, CHINESE, MALAY, TAMIL, HISTORY, GEOGRAPHY, CHEMISTRY, BIOLOGY, PHYSICS, SOCIAL_STUDIES, LITERATURE, COMPUTING; 
     // Add more subjects as needed
 
     public static Subject getENUMSubject(String input) {

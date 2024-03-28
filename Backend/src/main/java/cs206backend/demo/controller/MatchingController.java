@@ -20,6 +20,7 @@ import cs206backend.demo.payload.response.PingResponse;
 import cs206backend.demo.repository.MentorRepository;
 import cs206backend.demo.service.QuestionService;
 import cs206backend.demo.service.UserService;
+import jakarta.persistence.EntityNotFoundException;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,7 +30,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 
-@CrossOrigin
+
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"})
 @RestController
 @RequestMapping("/api/matching")
 public class MatchingController {
@@ -41,9 +43,11 @@ public class MatchingController {
     private QuestionService questionService;
 
     // Selection of mentee
-    @GetMapping("/mentee/getMentors/{userId}")
-    public ResponseEntity<?> getAvailableMentors(@PathVariable long userId) {
-        List<Mentor> mentors = userService.getAvailableMentors(userId);
+    @GetMapping("/mentee/{userId}/getMentors/{questionId}")
+    public ResponseEntity<?> getAvailableMentors(@PathVariable long userId, @PathVariable("questionId") long questionId) {
+        Question question = questionService.getQuestion(questionId);
+        String subject = question.getSubject();
+        List<Mentor> mentors = userService.getAvailableMentors(userId, subject);
         return ResponseEntity.ok().body(mentors);
     }
 
@@ -99,8 +103,11 @@ public class MatchingController {
     @PostMapping("mentee/randomMentor")
     public ResponseEntity<?> requestMentor(@RequestParam long menteeId, @RequestParam long questionId) {
 
-        List<Mentor> availableMentors = userService.getAvailableMentors(menteeId);
+        Question question = questionService.getQuestion(questionId);
+        String subject = question.getSubject();
 
+        List<Mentor> availableMentors = userService.getAvailableMentors(menteeId, subject);
+        System.out.println(availableMentors);
         for (Mentor mentor : availableMentors) {
             userService.mentorPing(menteeId, mentor.getId(), questionId);
 
@@ -130,7 +137,7 @@ public class MatchingController {
                 boolean questionAccepted = questionStatusFuture.get(1, TimeUnit.MINUTES);
                 System.out.println("Check 3");
                 if (questionAccepted) {
-                    return ResponseEntity.ok("Question accepted by a mentor.");
+                    return ResponseEntity.ok(String.format("Matching complete, mentor id is %d", mentor.getId()));
                 } else {
                     userService.responseHandler(mentor.getId());
                 }
@@ -143,6 +150,16 @@ public class MatchingController {
 
         // If no mentors accepted the question
         return ResponseEntity.status(404).body("No mentors available to accept the question at this time.");
+    }
+
+    @PostMapping("mentee/{menteeId}/save-mentor/{mentorId}")
+    public ResponseEntity<String> saveMentor(@PathVariable Long menteeId, @PathVariable Long mentorId) {
+        return userService.saveMentor(menteeId, mentorId);
+    }
+
+    @GetMapping("mentee/{menteeId}/mentors")
+    public ResponseEntity<List<Mentor>> getMentorsByMentee(@PathVariable Long menteeId) {
+        return userService.getMentorsByMentee(menteeId);
     }
 }
     

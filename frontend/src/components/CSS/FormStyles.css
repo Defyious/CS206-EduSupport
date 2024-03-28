@@ -2,7 +2,7 @@
 .form-container {
     background: rgba(255, 255, 255, 0.8); /* Adjust transparency as needed */
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     margin: auto;
     margin-top: 5%; /* Add top margin to lower the form a bit */
@@ -19,7 +19,11 @@
     padding: 2em; /* Spacing inside the form */
   }
   
-  h2 {
+  .form-container h2 {
+    font-family: "Rubik", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
     text-align: center; /* Center the form heading */
     margin-bottom: 1em; /* Spacing after the heading */
   }
@@ -46,7 +50,7 @@
     border: none;
     background-color: #007bff;
     color: white;
-    border-radius: 3px;
+    border-radius: 20px;
     cursor: pointer;
     margin-top: 20px;
   }

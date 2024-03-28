@@ -11,6 +11,9 @@ import ForumPage from './components/ForumPage';
 import LoginPage from './components/LoginPage';
 import ProfilePage from './components/Profile';
 import MentorRandomMatching from './components/MentorRandomMatching';
+import Call from './components/Call';
+import Call_Mentor from './components/Call_Mentor';
+import QuestionDetailsPage from './components/QuestionDetailsPage';
 import './App.css'; // Make sure to import the stylesheet
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -24,11 +27,14 @@ function App() {
         <Route path="/mentor-form" element={<MentorForm />} />
         <Route path="/random-matching" element={<RandomMatching />} />
         <Route path="/selective-matching" element={<SelectiveMatching />} />
-        <Route path="/home" element={<Home />} />
+        {/* <Route path="/home" element={<Home />} /> */}
         <Route path="/forum" element={<ForumPage />} />
         <Route path="/mentoring" element={<MentoringPage />} />
         <Route path="/register" element={<Selection />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/call" element={<Call />} />
+        <Route path="/call_mentor" element={<Call_Mentor />} />
+        <Route path="/questions/:questionId" element={<QuestionDetailsPage />} />
         <Route path="/" element={<LoginPage />} />
       </Routes>
     </Router>

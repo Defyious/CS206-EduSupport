@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import MyNavbar from './Navbar';
 import { Tab, Tabs } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import './CSS/ForumPage.css'; // Create this CSS file for styling
 import { getUserDetails } from './utils'; 
 
@@ -11,7 +12,7 @@ import { getUserDetails } from './utils';
     'JC 1', 'JC 2'
   ];
   
-  const subjects = ['Math', 'Chemistry', 'Physics', 'Biology', 'English', 'Chinese'];
+  const subjects = ['Math', 'Science', 'Malay','Tamil','History','Geography','Social Studies','Literature','Computing','Chemistry', 'Physics', 'Biology', 'English', 'Chinese'];
 
 const ForumPage = () => {
   const [allPosts, setAllPosts] = useState([]);
@@ -23,6 +24,7 @@ const ForumPage = () => {
   const userDetails = getUserDetails();
   const [hasFetchedAllPosts, setHasFetchedAllPosts] = useState(false);
   const [hasFetchedMyPosts, setHasFetchedMyPosts] = useState(false);
+  const navigate = useNavigate();
 
   const fetchPosts = useCallback(async (isAllPosts) => {
     const url = isAllPosts ? 'http://localhost:8080/api/post/questions' : `http://localhost:8080/api/post/questions/${userDetails.userID.id}`;
@@ -49,7 +51,7 @@ const ForumPage = () => {
     const currentPosts = key === 'allPosts' ? allPosts : myPosts;
     currentPosts.forEach((post) => {
       if (!imageUrls[post.questionId]) {
-        fetch(`http://localhost:8080/api/post/image/${post.questionId}`)
+        fetch(`http://localhost:8080/api/post/image/question/${post.questionId}`)
           .then((response) => response.blob())
           .then((blob) => {
             const imageUrl = URL.createObjectURL(blob);
@@ -88,6 +90,11 @@ const ForumPage = () => {
            (filterSubject ? post.subject === filterSubject : true);
   });
 
+  const handlePostClick = (questionId) => {
+    // Use the navigate function from react-router-dom to navigate to the details page
+    navigate(`/questions/${questionId}`);
+  };
+
 // Function to render a post card
 const renderPostCard = (post) => {
   console.log(post);
@@ -95,7 +102,7 @@ const renderPostCard = (post) => {
   const imageUrl = imageUrls[post.questionId] || 'https://dbkpop.com/wp-content/uploads/2023/03/twice_ready_to_be_concept_momo_2.jpg';
 
   return (
-    <div key={post.questionId} className="post-card">
+    <div key={post.questionId} className="post-card" onClick={() => handlePostClick(post.questionId)}>
       <h3 className="post-title">{post.title}</h3>
       <img src={imageUrl} alt={post.title} className="post-image" />
       <div className="post-content">
