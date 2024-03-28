@@ -12,7 +12,7 @@ import { getUserDetails } from './utils';
     'JC 1', 'JC 2'
   ];
   
-  const subjects = ['Math', 'Chemistry', 'Physics', 'Biology', 'English', 'Chinese'];
+  const subjects = ['Math', 'Science', 'Malay','Tamil','History','Geography','Social Studies','Literature','Computing','Chemistry', 'Physics', 'Biology', 'English', 'Chinese'];
 
 const ForumPage = () => {
   const [allPosts, setAllPosts] = useState([]);

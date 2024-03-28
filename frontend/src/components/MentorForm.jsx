@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "./CSS/FormStyles.css";
 
-const subjects = ['Math', 'Chemistry', 'Physics', 'Biology', 'English', 'Chinese'];
+const subjects = ['Math', 'Science', 'Malay','Tamil','History','Geography','Social Studies','Literature','Computing','Chemistry', 'Physics', 'Biology', 'English', 'Chinese'];
 
 const educationLevels = [
   'Primary 1', 'Primary 2', 'Primary 3', 'Primary 4', 'Primary 5', 'Primary 6',

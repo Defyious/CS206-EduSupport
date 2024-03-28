@@ -13,7 +13,7 @@ const MentoringPage = () => {
     'JC 1', 'JC 2'
   ];
 
-  const subjects = ['Math', 'Chemistry', 'Physics', 'Biology', 'English', 'Chinese'];
+  const subjects = ['Math', 'Science', 'Malay','Tamil','History','Geography','Social Studies','Literature','Computing','Chemistry', 'Physics', 'Biology', 'English', 'Chinese'];
 
   const [question, setQuestion] = useState({
     title: '',
@@ -125,6 +125,7 @@ const handleSelectiveMatching = async () => {
 
     if (!response.ok) throw new Error('Network response was not ok.');
     const data = await response.json();
+    localStorage.setItem('questionId', data.id);
     // Handle the response data from random matching
     console.log(data);
     alert('Selective matching initiated!');

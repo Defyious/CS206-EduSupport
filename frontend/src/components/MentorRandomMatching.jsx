@@ -29,7 +29,7 @@ const QuestionContainer = ({ question }) => {
       // Clean up the image URL when the component unmounts
       URL.revokeObjectURL(image);
     };
-  }, [question.id]);
+  }, [question.id, image, question]);
 
   return (
     <div className="question-container">
@@ -152,7 +152,7 @@ const MentorRandomMatching = () => {
       }, 2000); // Call API every 2 seconds
     }
     return () => clearInterval(intervalId); // Cleanup interval on component unmount or online status change
-  }, [online]);
+  }, [online, navigate]);
 
   return (
     <>
