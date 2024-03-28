@@ -23,7 +23,8 @@ const RandomMatching = () => {
         if (!response.ok) throw new Error(`Request for mentor failed: ${response.statusText}`);
 
         const result = await response.text(); // Use .text() if the response is plain text and not JSON
-        if (result === 'Question accepted by a mentor.') {
+        console.log(result);
+        if (result.includes("mentor id is")) {
           navigate('/call'); // Navigate to call page if mentor is found
         } else {
           setMatchStatus(result);
