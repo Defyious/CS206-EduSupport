@@ -23,8 +23,8 @@
     max-width: 350px; /* Adjust the width as needed */
   }
 
-  img {
-    width: 150px; /* A reasonable size for the profile image */
+.mentor-card img {
+    width: 150px;
     height: 150px;
     border-radius: 50%;
     margin-bottom: 20px;
