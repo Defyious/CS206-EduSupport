@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import MyNavbar from './Navbar';
 import { Modal, Button } from 'react-bootstrap';
-import { getUserDetails } from './utils'; 
+import { getUserDetails } from './utils';
+import './CSS/SelectiveMatching.css'; // Your dedicated CSS file
+
 
 const SelectiveMatching = () => {
   const [mentors, setMentors] = useState([]);
@@ -49,7 +51,7 @@ const SelectiveMatching = () => {
   return (
     <div className="page-container">
       <MyNavbar />
-      <h1>Selective Matching Page</h1>
+      <h1>Select Your Mentor</h1>
       <div className="mentor-list">
         {mentors.map(mentor => (
           <div key={mentor.id} className="mentor-card">

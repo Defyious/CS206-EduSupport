@@ -67,7 +67,7 @@ const MentorForm = () => {
       console.log('Role:', userDetails.role);
       
       alert('Signup successful!');
-      navigate('/home');
+      navigate('/mentoring');
     } catch (error) {
       console.error('There has been a problem with your fetch operation:', error);
       alert('Signup failed.');

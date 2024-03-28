@@ -36,7 +36,7 @@ const LoginPage = () => {
         console.log('Username:', userDetails.username);
         console.log('Role:', userDetails.roles);
         alert("Login Successful");
-        navigate("/home");
+        navigate("/mentoring");
       } catch (error) {
         console.error('Login Error:', error);
         alert('Login failed.');
