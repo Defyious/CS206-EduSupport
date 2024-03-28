@@ -15,37 +15,59 @@ import { getUserDetails } from './utils';
   const subjects = ['Math', 'Science', 'Malay','Tamil','History','Geography','Social Studies','Literature','Computing','Chemistry', 'Physics', 'Biology', 'English', 'Chinese'];
 
 const ForumPage = () => {
-  const [allPosts, setAllPosts] = useState([]);
   const [myPosts, setMyPosts] = useState([]);
   const [filterEducationLevel, setFilterEducationLevel] = useState('');
   const [filterSubject, setFilterSubject] = useState('');
   const [key, setKey] = useState('allPosts');
   const [imageUrls, setImageUrls] = useState({}); // This will store the image URLs indexed by questionId
   const userDetails = getUserDetails();
-  const [hasFetchedAllPosts, setHasFetchedAllPosts] = useState(false);
-  const [hasFetchedMyPosts, setHasFetchedMyPosts] = useState(false);
+  const [unresolvedPosts, setUnresolvedPosts] = useState([]);
+  const [resolvedPosts, setResolvedPosts] = useState([]);
+
   const navigate = useNavigate();
 
-  const fetchPosts = useCallback(async (isAllPosts) => {
-    const url = isAllPosts ? 'http://localhost:8080/api/post/questions' : `http://localhost:8080/api/post/questions/${userDetails.userID.id}`;
+  const fetchAllQuestions = useCallback(async () => {
     try {
-      const response = await fetch(url);
-      if (!response.ok) throw new Error('Network response was not ok');
-      const posts = await response.json();
-      isAllPosts ? setAllPosts(posts) : setMyPosts(posts);
-      isAllPosts ? setHasFetchedAllPosts(true) : setHasFetchedMyPosts(true);
+      // Fetch unresolved questions
+      let response = await fetch(`http://localhost:8080/api/post/questions/true`);
+      if (!response.ok) throw new Error('Failed to fetch unresolved questions');
+      let data = await response.json();
+      console.log("1" + data);
+      setUnresolvedPosts(data);
+
+      // Fetch resolved questions
+      response = await fetch(`http://localhost:8080/api/post/questions/false`);
+      if (!response.ok) throw new Error('Failed to fetch resolved questions');
+      data = await response.json();
+      console.log("2" + data);
+      setResolvedPosts(data);
+    } catch (error) {
+      console.error('Error during fetch:', error);
+    }
+  }, []);
+
+  const fetchMyQuestions = useCallback(async () => {
+    try {
+      const response = await fetch(`http://localhost:8080/api/post/questions/mentee/${userDetails.userID.id}`);
+      if (!response.ok) throw new Error('Failed to fetch my questions');
+      const data = await response.json();
+      setMyPosts(data);
     } catch (error) {
       console.error('Error during fetch:', error);
     }
   }, [userDetails.userID.id]);
 
+  // Effect to fetch all questions and my questions when the component mounts or the tab changes
   useEffect(() => {
-    if (key === 'allPosts' && !hasFetchedAllPosts) {
-      fetchPosts(true);
-    } else if (key === 'myPosts' && !hasFetchedMyPosts) {
-      fetchPosts(false);
+    if (key === 'allPosts') {
+      fetchAllQuestions();
+    } else if (key === 'myPosts') {
+      fetchMyQuestions();
     }
-  }, [key, fetchPosts, hasFetchedAllPosts, hasFetchedMyPosts]);
+    // ... (the rest of your useEffect logic for imageUrls)
+  }, [fetchAllQuestions, fetchMyQuestions, key]);
+
+  const allPosts = [...unresolvedPosts, ...resolvedPosts];
 
   const fetchImagesForVisiblePosts = useCallback(() => {
     const currentPosts = key === 'allPosts' ? allPosts : myPosts;
@@ -65,6 +87,15 @@ const ForumPage = () => {
   useEffect(() => {
     fetchImagesForVisiblePosts();
   }, [fetchImagesForVisiblePosts]);
+
+  useEffect(() => {
+    console.log("All posts: ", allPosts); // Check for duplicates in the state itself
+    console.log("Unresolved posts: ", unresolvedPosts); // Inspect the individual arrays
+    console.log("Resolved posts: ", resolvedPosts);
+  }, [allPosts, unresolvedPosts, resolvedPosts]);
+  
+  // ... rest of your component
+  
 
   // const applyFilters = (posts) => posts.filter(post => {
   //   return (filterEducationLevel ? post.eduLevel === filterEducationLevel : true) &&
