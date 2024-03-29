@@ -62,7 +62,7 @@ const MentoringPage = () => {
     formData.append('type', "forum");
     try {
       // Make the POST request
-      const response = await fetch('http://localhost:8080/api/post/question', {
+      const response = await fetch('http://ad554d9e8589547b0a334504cf45a06e-694130236.ap-southeast-1.elb.amazonaws.com/api/post/question', {
         method: 'POST',
         body: formData, // Send the form data
       });
@@ -89,7 +89,7 @@ const handleRandomMatching = async () => {
   formData.append('type', "matching");
   // Perform the API call for random matching
   try {
-    const response = await fetch('http://localhost:8080/api/post/question', { // Use your actual API endpoint
+    const response = await fetch('http://ad554d9e8589547b0a334504cf45a06e-694130236.ap-southeast-1.elb.amazonaws.com/api/post/question', { // Use your actual API endpoint
       method: 'POST',
       body: formData,
     });
@@ -118,7 +118,7 @@ const handleSelectiveMatching = async () => {
   formData.append('type', "matching");
   // Perform the API call for random matching
   try {
-    const response = await fetch('http://localhost:8080/api/post/question', { // Use your actual API endpoint
+    const response = await fetch('http://ad554d9e8589547b0a334504cf45a06e-694130236.ap-southeast-1.elb.amazonaws.com/api/post/question', { // Use your actual API endpoint
       method: 'POST',
       body: formData,
     });

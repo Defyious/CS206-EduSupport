@@ -12,7 +12,7 @@ const QuestionContainer = ({ question }) => {
     const fetchImage = async () => {
       try {
         console.log(question);
-        const response = await fetch(`http://localhost:8080/api/post/image/question/${question.questionId}`);
+        const response = await fetch(`http://ad554d9e8589547b0a334504cf45a06e-694130236.ap-southeast-1.elb.amazonaws.com/api/post/image/question/${question.questionId}`);
         if (!response.ok) {
           throw new Error('Failed to fetch image');
         }
@@ -80,7 +80,7 @@ const MentorRandomMatching = () => {
   const handleToggleChange = async (isChecked) => {
     try {
       const user = getUserDetails();
-      const url = 'http://localhost:8080/api/status/update/' + user.userID.id;
+      const url = 'http://ad554d9e8589547b0a334504cf45a06e-694130236.ap-southeast-1.elb.amazonaws.com/api/status/update/' + user.userID.id;
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -106,13 +106,13 @@ const MentorRandomMatching = () => {
         try {
           const user = getUserDetails();
           console.log(user);
-          const url = `http://localhost:8080/api/matching/mentor/${user.userID.id}`;
+          const url = `http://ad554d9e8589547b0a334504cf45a06e-694130236.ap-southeast-1.elb.amazonaws.com/api/matching/mentor/${user.userID.id}`;
           const response = await fetch(url);
           if (!response.ok) throw new Error('first not ok');
           const data = await response.json();
           console.log(data);
 
-          const questionUrl = `http://localhost:8080/api/post/question/${data.questionId}`;
+          const questionUrl = `http://ad554d9e8589547b0a334504cf45a06e-694130236.ap-southeast-1.elb.amazonaws.com/api/post/question/${data.questionId}`;
           const questionResponse = await fetch(questionUrl);
           if (!questionResponse.ok) throw new Error('Question API: Network response was not ok.');
           const questionData = await questionResponse.json();
@@ -128,7 +128,7 @@ const MentorRandomMatching = () => {
             console.log('Question accepted');
 
             // Call the API to respond to the question
-            const responseUrl = `http://localhost:8080/api/matching/mentor/response/${user.userID.id}?response=accept`;
+            const responseUrl = `http://ad554d9e8589547b0a334504cf45a06e-694130236.ap-southeast-1.elb.amazonaws.com/api/matching/mentor/response/${user.userID.id}?response=accept`;
             const responses = await fetch(responseUrl, {
               method: 'POST',
               headers: {

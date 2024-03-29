@@ -16,7 +16,7 @@ const QuestionDetailsPage = () => {
 
   useEffect(() => {
     // Fetch the question details
-    fetch(`http://localhost:8080/api/post/question/${questionId}`)
+    fetch(`http://ad554d9e8589547b0a334504cf45a06e-694130236.ap-southeast-1.elb.amazonaws.com/api/post/question/${questionId}`)
     .then((response) => response.json())
     .then((data) => {
     // Check the boolean value of isSolved (assuming it is returned as a string 'true' or 'false')
@@ -28,7 +28,7 @@ const QuestionDetailsPage = () => {
     })
     .catch((error) => console.error('Error fetching question details:', error));
     // Fetch the question image
-    fetch(`http://localhost:8080/api/post/image/question/${questionId}`)
+    fetch(`http://ad554d9e8589547b0a334504cf45a06e-694130236.ap-southeast-1.elb.amazonaws.com/api/post/image/question/${questionId}`)
       .then((response) => response.blob())
       .then((imageBlob) => {
         const imageUrl = URL.createObjectURL(imageBlob);
@@ -37,14 +37,14 @@ const QuestionDetailsPage = () => {
       .catch((error) => console.error('Error fetching image:', error));
 
     // Fetch the images for answers
-    fetch(`http://localhost:8080/api/post/question/${questionId}/answers`)
+    fetch(`http://ad554d9e8589547b0a334504cf45a06e-694130236.ap-southeast-1.elb.amazonaws.com/api/post/question/${questionId}/answers`)
       .then((response) => response.json())
       .then(async (answersData) => {
         // Use async/await to wait for all images to be fetched before updating the state
         const answersWithImages = await Promise.all(answersData.map(async (answer) => {
           if (answer.image) {
             try {
-              const imageResponse = await fetch(`http://localhost:8080/api/post/image/answer/${answer.id}`);
+              const imageResponse = await fetch(`http://ad554d9e8589547b0a334504cf45a06e-694130236.ap-southeast-1.elb.amazonaws.com/api/post/image/answer/${answer.id}`);
               if (!imageResponse.ok) {
                 throw new Error('Image fetch failed');
               }
@@ -80,7 +80,7 @@ const QuestionDetailsPage = () => {
     console.log(formData);
 
     try {
-      const response = await fetch(`http://localhost:8080/api/post/question/${questionId}/answer`, {
+      const response = await fetch(`http://ad554d9e8589547b0a334504cf45a06e-694130236.ap-southeast-1.elb.amazonaws.com/api/post/question/${questionId}/answer`, {
         method: 'POST',
         body: formData,
       });
@@ -107,7 +107,7 @@ const QuestionDetailsPage = () => {
     const isSolved = e.target.checked;
     try {
       const response = await fetch(
-        `http://localhost:8080/api/post/question/${questionId}/update/${isSolved}`,
+        `http://ad554d9e8589547b0a334504cf45a06e-694130236.ap-southeast-1.elb.amazonaws.com/api/post/question/${questionId}/update/${isSolved}`,
         { method: 'POST' }
       );
       if (!response.ok) throw new Error('Failed to update question resolved status');

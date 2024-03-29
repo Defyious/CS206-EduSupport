@@ -14,7 +14,7 @@ const RandomMatching = () => {
   useEffect(() => {
     const requestMentor = async () => {
       const queryParams = new URLSearchParams({ menteeId, questionId }).toString();
-      const url = `http://localhost:8080/api/matching/mentee/randomMentor?${queryParams}`;
+      const url = `http://ad554d9e8589547b0a334504cf45a06e-694130236.ap-southeast-1.elb.amazonaws.com/api/matching/mentee/randomMentor?${queryParams}`;
       try {
         const response = await fetch(url, {
           method: 'POST'
