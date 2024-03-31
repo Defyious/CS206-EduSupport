@@ -19,6 +19,7 @@ const SelectiveMatching = () => {
       console.log("Attempting to fetch available mentors");
       try {
         const url = `http://localhost:8080/api/matching/mentee/${menteeId}/getMentors/${questionId}`;
+        console.log(url);
         const response = await fetch(url);
         if (!response.ok) {
           throw new Error(`Network response was not ok: ${response.statusText}`);

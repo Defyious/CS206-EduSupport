@@ -130,7 +130,7 @@ const ForumPage = () => {
 const renderPostCard = (post) => {
   console.log(post);
   // Construct the image URL or use a placeholder if not yet loaded
-  const imageUrl = imageUrls[post.questionId] || 'https://dbkpop.com/wp-content/uploads/2023/03/twice_ready_to_be_concept_momo_2.jpg';
+  const imageUrl = imageUrls[post.questionId];
 
   return (
     <div key={post.questionId} className="post-card" onClick={() => handlePostClick(post.questionId)}>

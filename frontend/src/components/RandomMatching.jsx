@@ -34,7 +34,7 @@ const RandomMatching = () => {
         }
       } catch (error) {
         console.error('Error:', error);
-        setMatchStatus('An error occurred while searching for a mentor.');
+        setMatchStatus('We are searching for a mentor.');
       }
     };
 
