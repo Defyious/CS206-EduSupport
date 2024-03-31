@@ -58,7 +58,7 @@ export default function Call_Mentor() {
 
   const handleSubmit = async () => {
     try {
-        const url = `http://ad554d9e8589547b0a334504cf45a06e-694130236.ap-southeast-1.elb.amazonaws.com/api/matching/mentee/1/giverating/1?rating=${rating}&comments=${comment}`;
+        const url = `http://localhost:8080/api/matching/mentee/1/giverating/1?rating=${rating}&comments=${comment}`;
         const response = await fetch(url, {
             method: 'POST',
             headers: {

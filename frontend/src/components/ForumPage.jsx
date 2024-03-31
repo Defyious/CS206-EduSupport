@@ -29,14 +29,14 @@ const ForumPage = () => {
   const fetchAllQuestions = useCallback(async () => {
     try {
       // Fetch unresolved questions
-      let response = await fetch(`http://ad554d9e8589547b0a334504cf45a06e-694130236.ap-southeast-1.elb.amazonaws.com/api/post/questions/true`);
+      let response = await fetch(`http://localhost:8080/api/post/questions/true`);
       if (!response.ok) throw new Error('Failed to fetch unresolved questions');
       let data = await response.json();
       console.log("1" + data);
       setUnresolvedPosts(data);
 
       // Fetch resolved questions
-      response = await fetch(`http://ad554d9e8589547b0a334504cf45a06e-694130236.ap-southeast-1.elb.amazonaws.com/api/post/questions/false`);
+      response = await fetch(`http://localhost:8080/api/post/questions/false`);
       if (!response.ok) throw new Error('Failed to fetch resolved questions');
       data = await response.json();
       console.log("2" + data);
@@ -48,7 +48,7 @@ const ForumPage = () => {
 
   const fetchMyQuestions = useCallback(async () => {
     try {
-      const response = await fetch(`http://ad554d9e8589547b0a334504cf45a06e-694130236.ap-southeast-1.elb.amazonaws.com/api/post/questions/mentee/${userDetails.userID.id}`);
+      const response = await fetch(`http://localhost:8080/api/post/questions/mentee/${userDetails.userID.id}`);
       if (!response.ok) throw new Error('Failed to fetch my questions');
       const data = await response.json();
       setMyPosts(data);
@@ -73,7 +73,7 @@ const ForumPage = () => {
     const currentPosts = key === 'allPosts' ? allPosts : myPosts;
     currentPosts.forEach((post) => {
       if (!imageUrls[post.questionId]) {
-        fetch(`http://ad554d9e8589547b0a334504cf45a06e-694130236.ap-southeast-1.elb.amazonaws.com/api/post/image/question/${post.questionId}`)
+        fetch(`http://localhost:8080/api/post/image/question/${post.questionId}`)
           .then((response) => response.blob())
           .then((blob) => {
             const imageUrl = URL.createObjectURL(blob);

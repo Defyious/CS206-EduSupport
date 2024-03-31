@@ -84,7 +84,7 @@ export default function Call() {
     try {
       const mentor = getCurrentMentorID();
       const user= getUserDetails();
-        const url = `http://ad554d9e8589547b0a334504cf45a06e-694130236.ap-southeast-1.elb.amazonaws.com/api/matching/mentee/${user.userID.id}/giverating/${mentor}?rating=${rating}&comments=${comment}`;
+        const url = `http://localhost:8080/api/matching/mentee/${user.userID.id}/giverating/${mentor}?rating=${rating}&comments=${comment}`;
         const response = await fetch(url, {
             method: 'POST',
             headers: {

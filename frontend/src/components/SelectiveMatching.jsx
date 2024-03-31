@@ -18,7 +18,7 @@ const SelectiveMatching = () => {
     const fetchAvailableMentors = async () => {
       console.log("Attempting to fetch available mentors");
       try {
-        const url = `http://ad554d9e8589547b0a334504cf45a06e-694130236.ap-southeast-1.elb.amazonaws.com/api/matching/mentee/${menteeId}/getMentors/${questionId}`;
+        const url = `http://localhost:8080/api/matching/mentee/${menteeId}/getMentors/${questionId}`;
         const response = await fetch(url);
         if (!response.ok) {
           throw new Error(`Network response was not ok: ${response.statusText}`);
@@ -47,7 +47,7 @@ const SelectiveMatching = () => {
     }
   
     try {
-      const url = `http://ad554d9e8589547b0a334504cf45a06e-694130236.ap-southeast-1.elb.amazonaws.com/api/matching/mentee/${menteeId}/select/${selectedMentor.id}?questionId=${questionId}`;
+      const url = `http://localhost:8080/api/matching/mentee/${menteeId}/select/${selectedMentor.id}?questionId=${questionId}`;
       const response = await fetch(url, {
         method: 'POST',
       });
@@ -61,7 +61,7 @@ const SelectiveMatching = () => {
       // Start polling for mentor response
       const checkMentorResponse = async () => {
         try {
-          const checkResponse = await fetch(`http://ad554d9e8589547b0a334504cf45a06e-694130236.ap-southeast-1.elb.amazonaws.com/api/matching/mentee/${questionId}`);
+          const checkResponse = await fetch(`http://localhost:8080/api/matching/mentee/${questionId}`);
           const mentorResponse = await checkResponse.text(); // Get the response as text
     console.log("Mentor response text:", mentorResponse); // Log the raw text response
           if (mentorResponse === 'Found Mentor') {
