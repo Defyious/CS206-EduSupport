@@ -86,7 +86,7 @@ const SelectiveMatching = () => {
 
   const calculateAverageRating = (ratings) => {
     if (!ratings.length) return 0;
-    const sum = ratings.reduce((acc, rating) => acc + rating.score, 0);
+    const sum = ratings.reduce((acc, rating) => acc + rating.rating, 0);
     return (sum / ratings.length).toFixed(1);
   };
 
@@ -115,11 +115,12 @@ const SelectiveMatching = () => {
       </Modal.Header>
       <Modal.Body>
         <ListGroup variant="flush">
-          {selectedMentor?.ratings.map((rating, index) => (
+          {selectedMentor?.ratings && selectedMentor.ratings.map((rating, index) => (
             <ListGroup.Item key={index}>
-              Score: {rating.score} - {rating.comment}
+              Score: {rating.rating} - {rating.comments}
             </ListGroup.Item>
           ))}
+          {!selectedMentor?.ratings && <ListGroup.Item>No ratings available</ListGroup.Item>}
         </ListGroup>
       </Modal.Body>
       <Modal.Footer>
@@ -129,7 +130,7 @@ const SelectiveMatching = () => {
       </Modal.Footer>
     </Modal>
   );
-
+  
   return (
     <div className="page-container">
       <MyNavbar />
@@ -152,7 +153,7 @@ const SelectiveMatching = () => {
           <Button variant="secondary" onClick={() => setShowConfirmation(false)}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={confirmChooseMentor}>
+          <Button variant="primary" onClick={()=>confirmChooseMentor()}>
             Confirm
           </Button>
         </Modal.Footer>

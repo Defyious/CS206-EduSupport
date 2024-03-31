@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import MyNavbar from './Navbar';
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
 import { useNavigate } from 'react-router-dom';
+import { getCurrentMentorID } from './utils';
+import { getUserDetails } from './utils';
 
 function randomID(len) {
   let result = '';
@@ -33,8 +35,30 @@ export default function Call() {
     const zp = ZegoUIKitPrebuilt.create(kitToken);
     // start the call
     zp.joinRoom({
-      onLeaveRoom: () => {
+      onLeaveRoom: async() => {
         setShowRatingPopup(true); // Show rating popup when leaving the room
+        const saveMentor = window.confirm('Would you like to save mentor?');
+          if (saveMentor) {
+            // Handle accept action
+            console.log('mentor saved');
+            const mentor = getCurrentMentorID();
+            const user= getUserDetails();
+            // Call the API to respond to the question
+            const responseUrl = `http://localhost:8080/api/matching/mentee/${user.userID.id}/save-mentor/${mentor}`;
+            const responses = await fetch(responseUrl, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              }, // Assuming 'accept' is the response
+            });
+            // if (!response.ok) throw new Error('Response API: Network response was not ok.');
+            // const responseData = await responses.json();
+            console.log('Saved mentor:', responses);
+            alert('Mentor saved.');
+          } else {
+            // Handle decline action
+            console.log('Question declined');
+          }
       },
       onReturnToHomeScreenClicked: () => {
         navigate('/mentoring');
@@ -58,7 +82,9 @@ export default function Call() {
 
   const handleSubmit = async () => {
     try {
-        const url = `http://ad554d9e8589547b0a334504cf45a06e-694130236.ap-southeast-1.elb.amazonaws.com/api/matching/mentee/1/giverating/1?rating=${rating}&comments=${comment}`;
+      const mentor = getCurrentMentorID();
+      const user= getUserDetails();
+        const url = `http://ad554d9e8589547b0a334504cf45a06e-694130236.ap-southeast-1.elb.amazonaws.com/api/matching/mentee/${user.userID.id}/giverating/${mentor}?rating=${rating}&comments=${comment}`;
         const response = await fetch(url, {
             method: 'POST',
             headers: {
